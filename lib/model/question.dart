@@ -9,9 +9,11 @@ class Question {
   late String description;
   @enumerated
   late Category category;
-  late bool isAnswered;
-  late bool isFavorite;
+  bool isAnswered = false;
+  bool isFavorite = false;
+  late String imagePath;
   late DateTime createdDate;
+  late DateTime answeredDate;
   late Content content;
 }
 
