@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:psycho/view/setting/privacy_policy_view.dart';
 import 'package:psycho/view/setting/term_view.dart';
+import 'package:psycho/view/setting/contact_form_view.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SettingView extends StatelessWidget {
@@ -35,7 +36,7 @@ class SettingView extends StatelessWidget {
             leading: CircleAvatar(child: Icon(Icons.mail)),
             title: Text('問い合わせ'),
             onTap: () {
-              Navigator.pushNamed(context, '/account');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ContactFormView()));
             },
           ),
           const Divider(height: 0,),
