@@ -268,7 +268,6 @@ class PsychoTestContainer extends ConsumerWidget {
                     ],
                     ),
                   ),
-                  
                   // isAnsweredがtrueの場合は黒い透明のコンテナを表示
                   IgnorePointer(
                     ignoring: true,

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/view/home_view.dart';
+import 'package:psycho/view/history_view.dart';
 import 'package:psycho/view/setting_view.dart';
 import 'package:psycho/provider/tab_provider.dart' show tabProvider, TabType;
+
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));
@@ -23,7 +25,7 @@ class MainApp extends ConsumerWidget {
     );
   }
 }
-final pages = [HomeView(), HomeView2(), SettingView()];
+final pages = [HomeView(), HistoryView(), SettingView()];
 class TabBarViews extends ConsumerWidget {
   TabBarViews({super.key});
   

@@ -32,6 +32,7 @@ class Data extends _$Data {
 
   void updateAnswered(Question question) {
     question.isAnswered = true;
+    question.answeredDate = DateTime.now();
     state = [...state];
   }
 
@@ -42,6 +43,14 @@ class Data extends _$Data {
   List<Question> getQuestions() {
     state = [...state];
     return state;
+  }
+
+  List<Question> getAnsweredQuestions() {
+    return state.where((element) => element.isAnswered == true).toList();;
+  }
+
+  List<Question> getFavoriteQuestions() {
+    return state.where((element) => element.isFavorite == true).toList();;
   }
   // List<Question> getQuestions(bool isDoneFlag) {
   //   if (isDoneFlag) {
