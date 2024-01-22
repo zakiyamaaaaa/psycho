@@ -25,6 +25,16 @@ class Data extends _$Data {
     return question;
   }
 
+  Question? getCurrentQuestion() {
+    // answeredDateが一番新しいものを取得
+    final answeredQuestions = state.where((element) => element.isAnswered == true).toList();
+    if (answeredQuestions.isEmpty) {
+      return null;
+    }
+    answeredQuestions.sort((a, b) => b.answeredDate.compareTo(a.answeredDate));
+    return answeredQuestions.first;
+  }
+
   void updateFavorite(Question question) {
     question.isFavorite = !question.isFavorite;
     state = [...state];

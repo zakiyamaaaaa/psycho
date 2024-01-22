@@ -19,6 +19,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(dataProvider);
+    final current = ref.read(dataProvider.notifier).getCurrentQuestion();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -54,14 +55,16 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     MaterialPageRoute(builder: (context) => const HomeView2()),
                   );
                 },
-                child: const Column(
+
+                child: Column(
                   // 左寄せ
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  
                   children: [
                     // 白いテキスト
-                    Text('あなたの最近のテスト結果', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    Text('恋愛モード1', style: TextStyle(color: Colors.white, ),),
+                    Text(current != null ? 'あなたの最近のテスト結果': "テストを受けよう！", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                    Text(current != null ? current.content.options.firstWhere((element) => element.isSelected == true).answer1 : "", style: TextStyle(color: Colors.white, ),),
                   ],
                 ),
                 ),
@@ -250,7 +253,9 @@ class PsychoTestContainer extends ConsumerWidget {
                         fit: BoxFit.fitWidth,),
                       ),
                     // ),
-                    Row(
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
                       children: [
                         Expanded(
                           child: Column(
@@ -258,12 +263,13 @@ class PsychoTestContainer extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(question.title, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                              Text(question.category.name, style: TextStyle(color: Colors.black, ),),
+                              Text("#${question.category.name}", style: TextStyle(color: Colors.black, ),),
                             ],
                           ),
                         ),
                         Icon(Icons.arrow_forward_ios, color: Colors.black,),
                       ],
+                    ),
                     ),
                     ],
                     ),
