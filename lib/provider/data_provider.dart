@@ -27,9 +27,30 @@ class Data extends _$Data {
 
   void updateFavorite(Question question) {
     question.isFavorite = !question.isFavorite;
+    state = [...state];
   }
 
   void updateAnswered(Question question) {
     question.isAnswered = true;
+    state = [...state];
   }
+
+  int getAnsweredCount() {
+    return state.where((element) => element.isAnswered == true).length;
+  }
+
+  List<Question> getQuestions() {
+    state = [...state];
+    return state;
+  }
+  // List<Question> getQuestions(bool isDoneFlag) {
+  //   if (isDoneFlag) {
+  //     state = state.where((element) => element.isAnswered == false).toList();
+  //     state = [...state];
+  //     return state;
+  //   } else {
+  //     state = state
+      
+  //   }
+  // }
 }

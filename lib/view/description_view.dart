@@ -13,26 +13,40 @@ class DescriptionView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Description View')),
       body: Container(
+        height:double.infinity,
         decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('images/backgroundimage_home.png'),
               fit: BoxFit.cover,
             ),
           ),
-        child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        
+        child: SingleChildScrollView(
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children:  [
-            Text(
-              question.title,
-              style: TextStyle(fontSize: 40),
+            Container(
+              child: Image.asset(question.imagePath),
             ),
-            Text(
-              question.description,
-              style: TextStyle(fontSize: 20),
+            Container(
+              margin: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Text(
+                    question.title,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    maxLines: 2,
+                    overflow: TextOverflow.visible,
+                  ),
+                  Text(
+                    question.description,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
             ),
             ElevatedButton(onPressed: (){
-              Navigator.push(context, 
+              Navigator.push(context,
               MaterialPageRoute(
                 builder: (context) => PsychoTestPageView(question: question),
                 fullscreenDialog: true,
@@ -41,8 +55,9 @@ class DescriptionView extends StatelessWidget {
             },
             child: Text('テストする')),
           ],
-        ),
+        
       ),
+        ),
     ),
     );
   }

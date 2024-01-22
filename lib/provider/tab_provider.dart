@@ -4,7 +4,8 @@ part 'tab_provider.g.dart';
 
 enum TabType {
   home,
-  history
+  history,
+  setting
 }
 
 @riverpod

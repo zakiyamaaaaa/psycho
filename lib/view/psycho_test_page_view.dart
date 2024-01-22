@@ -9,7 +9,6 @@ class PsychoTestPageView extends StatefulWidget {
   _PsychoTestPageViewState createState() => _PsychoTestPageViewState(question: question);
 }
 
-
 class _PsychoTestPageViewState extends State<PsychoTestPageView> {
   // questionを初期化
   _PsychoTestPageViewState({required this.question});
@@ -27,18 +26,21 @@ class _PsychoTestPageViewState extends State<PsychoTestPageView> {
               fit: BoxFit.cover,
             ),
           ),
-        child: Center(
+        child: Container(
+        margin: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children:  [
             Text(
               question.title,
-              style: TextStyle(fontSize: 40),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+            SizedBox(height: 10),
             Text(
               question.content.explanation,
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 16),
             ),
+            SizedBox(height: 20),
             ListView.builder(
               shrinkWrap: true,
               itemCount: question.content.options.length,
@@ -55,6 +57,15 @@ class _PsychoTestPageViewState extends State<PsychoTestPageView> {
               },
             ),
             ElevatedButton(onPressed: selectedIndex < 0 ? null : (){
+              // 選択されたoptionならtrue,それ以外はfalse
+              question.content.options.forEach((element) {
+                if (element == question.content.options[selectedIndex]) {
+                  element.isSelected = true;
+                } else {
+                  element.isSelected = false;
+                }
+              });
+
               Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => PsychoTestResultView(question: question, selectedIndex: selectedIndex)),

@@ -28,12 +28,14 @@ class Option {
   late String text;
   late String answer1;
   late String answer2;
+  bool isSelected = false;
 }
 
 enum Category {
   love(0),
   business(1),
-  relationship(2);
+  relationship(2),
+  character(3);
 
   const Category(this.num);
 

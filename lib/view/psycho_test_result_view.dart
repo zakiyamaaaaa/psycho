@@ -22,32 +22,47 @@ class PsychoTestResultView extends ConsumerWidget {
         child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: [ 
             Container(
-              child: Text(
-                '${selection.text}を選んだあなたは・・・\n${selection.answer1}のタイプです',
-                style: TextStyle(fontSize: 40),
-              ),
-            ),
-            Container(
-              child: Text(
-                '${selection.answer2}',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Text("その他の項目について"),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: question.content.options.length - 1,
-              itemBuilder: (BuildContext context, int index) {
-              // selectedIndex == indexの場合は表示しない
-              if (selectedIndex == index) {
-                return Container();
-              } else {
-                return PsychoTestResultOthersContainer(option: question.content.options[index],);
-              }
-            }),
+              margin: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.only(bottom: 20),
+                    // 背景白
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                        '${selection.text}を選んだあなたは・・・\n${selection.answer1}のタイプです',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                      Text(
+                        '${selection.answer2}',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      ],
+                    ),
+                  ),
+                  const Text("その他の項目について", style: TextStyle(fontSize: 20),),
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: question.content.options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                    // selectedIndex == indexの場合は表示しない
+                    if (selectedIndex == index) {
+                      return Container();
+                    } else {
+                      return PsychoTestResultOthersContainer(option: question.content.options[index],);
+                    }
+                  }),
+                ],
+            ),),
             ElevatedButton(onPressed: (){
               ref.read(dataProvider.notifier).updateFavorite(question);
             }, child: Text('お気に入りに追加')),
@@ -56,7 +71,7 @@ class PsychoTestResultView extends ConsumerWidget {
               Navigator.popUntil(context, ModalRoute.withName('/'));
             }, child: Text('閉じる')),
             // List.generate(question.content.options.length - 1, (index) => PsychoTestResultOthersContainer())
-          ],
+          ]
         ),
         
       ),
@@ -75,15 +90,23 @@ class PsychoTestResultOthersContainer extends StatelessWidget {
     return Column(
       children:[
         Container(
+          padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Text(
             option.text,
-            style: TextStyle(fontSize: 40),
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
         ),
         Container(
           child: Text(
             option.answer2,
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 16),
           ),
         ),
       ]

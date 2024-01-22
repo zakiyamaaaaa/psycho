@@ -183,11 +183,13 @@ const _QuestioncategoryEnumValueMap = {
   'love': 0,
   'business': 1,
   'relationship': 2,
+  'character': 3,
 };
 const _QuestioncategoryValueEnumMap = {
   0: Category.love,
   1: Category.business,
   2: Category.relationship,
+  3: Category.character,
 };
 
 Id _questionGetId(Question object) {
@@ -1593,8 +1595,13 @@ const OptionSchema = Schema(
       name: r'answer2',
       type: IsarType.string,
     ),
-    r'text': PropertySchema(
+    r'isSelected': PropertySchema(
       id: 2,
+      name: r'isSelected',
+      type: IsarType.bool,
+    ),
+    r'text': PropertySchema(
+      id: 3,
       name: r'text',
       type: IsarType.string,
     )
@@ -1625,7 +1632,8 @@ void _optionSerialize(
 ) {
   writer.writeString(offsets[0], object.answer1);
   writer.writeString(offsets[1], object.answer2);
-  writer.writeString(offsets[2], object.text);
+  writer.writeBool(offsets[2], object.isSelected);
+  writer.writeString(offsets[3], object.text);
 }
 
 Option _optionDeserialize(
@@ -1637,7 +1645,8 @@ Option _optionDeserialize(
   final object = Option();
   object.answer1 = reader.readString(offsets[0]);
   object.answer2 = reader.readString(offsets[1]);
-  object.text = reader.readString(offsets[2]);
+  object.isSelected = reader.readBool(offsets[2]);
+  object.text = reader.readString(offsets[3]);
   return object;
 }
 
@@ -1653,6 +1662,8 @@ P _optionDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readBool(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1916,6 +1927,16 @@ extension OptionQueryFilter on QueryBuilder<Option, Option, QFilterCondition> {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'answer2',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Option, Option, QAfterFilterCondition> isSelectedEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isSelected',
+        value: value,
       ));
     });
   }
