@@ -5,14 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // スクロール可能なView
 class PsychoTestResultView extends ConsumerWidget {
-  PsychoTestResultView({required this.question, required this.selectedIndex, Key? key}) : super(key: key);
+  PsychoTestResultView({required this.question, Key? key}) : super(key: key);
 
   final Question question;
-  final int selectedIndex;
+  // final int selectedIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selection = question.content.options[selectedIndex];
+    final selection = question.content.options.firstWhere((element) => element.isSelected == true);
+    final selectedIndex = question.content.options.indexWhere((element) => element.isSelected == true);
     final data = ref.watch(dataProvider);
     return Scaffold(
       body: Container(

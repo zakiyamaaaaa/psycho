@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
+import 'package:psycho/view/psycho_test_result_view.dart';
 
 import 'package:psycho/provider/data_provider.dart';
 import 'package:psycho/view/description_view.dart';
@@ -50,9 +51,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   backgroundColor: Colors.orange
                 ),
                 onPressed: () {
+
+                  // current == nullなら何もしない
+                  if (current == null) {
+                    return;
+                  }
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeView2()),
+
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => PsychoTestResultView(question: current)
+                    ),
                   );
                 },
 
@@ -60,7 +70,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   // 左寄せ
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  
                   children: [
                     // 白いテキスト
                     Text(current != null ? 'あなたの最近のテスト結果': "テストを受けよう！", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),

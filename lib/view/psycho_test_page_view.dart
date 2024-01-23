@@ -68,7 +68,7 @@ class _PsychoTestPageViewState extends State<PsychoTestPageView> {
 
               Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PsychoTestResultView(question: question, selectedIndex: selectedIndex)),
+                            MaterialPageRoute(builder: (context) => PsychoTestResultView(question: question)),
                           );
             },
             child: Text('診断結果を見る')),
