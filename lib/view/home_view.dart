@@ -16,6 +16,14 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   bool _isToggle = false;
+  Category dropdownValue = Category.none;
+
+  final List<DropdownMenuItem<Category>> _dropDownMenuItems = Category.values.map((category) {
+    return DropdownMenuItem(
+      value: category,
+      child: Text(category == Category.none ? "すべて" : category.name),
+    );
+  }).toList();
   
   @override
   Widget build(BuildContext context) {
@@ -38,9 +46,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 width: double.infinity,
-                height: 80,
+                // height: 80,
                 child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
@@ -65,16 +74,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     ),
                   );
                 },
-
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   // 左寄せ
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 白いテキスト
-                    Text(current != null ? 'あなたの最近のテスト結果': "テストを受けよう！", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                    Text(current != null ? 'あなたの最近のテスト結果': "早速診断にトライ！", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     Text(current != null ? current.content.options.firstWhere((element) => element.isSelected == true).answer1 : "", style: TextStyle(color: Colors.white, ),),
                   ],
+                ),
                 ),
                 ),
               ),
@@ -88,14 +99,40 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
-                  color: Colors.orange[700],
+                  color: Colors.orange,
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                           const Spacer(),
-                          Text("ヘッダー"),
+                          
+                          Text('カテゴリー'),
+                          
+                          Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey),
+                              color: Colors.white.withAlpha(100),
+                            ),
+                          child: DropdownButton(
+                            style: const TextStyle(fontSize: 14, color: Colors.black),
+                            focusColor: Colors.grey,
+                            dropdownColor: Colors.white,
+                            value: dropdownValue,
+                            iconSize: 20,
+                            underline: Container(),
+                            borderRadius: BorderRadius.circular(10),
+                            items: _dropDownMenuItems,
+                            onChanged: (value) {
+                              setState(() {
+                                ref.read(dataProvider.notifier).getQuestions();
+                                if(value != null) dropdownValue = value;
+                              });
+                            },
+                          ),
+                          ),
                           const Spacer(),
                           Text("診断済みを除外"),
                           CupertinoSwitch(value: _isToggle, onChanged: (value) => setState(() {
@@ -122,7 +159,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return PsychoTestContainer(question: data[index], isDoneFlag: _isToggle,);
+                        return PsychoTestContainer(question: data[index], isDoneFlag: _isToggle, category: dropdownValue,);
                       },
                     ),
                   ],
@@ -137,45 +174,28 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 }
 
-class HomeView2 extends ConsumerStatefulWidget {
-  const HomeView2({Key? key}) : super(key: key);
-
-  @override
-  _HomeViewState2 createState() => _HomeViewState2();
-}
-
-class _HomeViewState2 extends ConsumerState<HomeView2> {
-
-  @override
-  Widget build(BuildContext context) {
-    
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeView2'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'HomeView2',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class PsychoTestContainer extends ConsumerWidget {
-  const PsychoTestContainer({required this.question, this.isDoneFlag = false, Key? key}) : super(key: key);
+  const PsychoTestContainer({required this.question, this.isDoneFlag = false, this.category = Category.none, Key? key}) : super(key: key);
   final Question question;
   final bool isDoneFlag;
+  final Category category;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return (isDoneFlag && question.isAnswered) ? Container() : Container(
+    // switch (category) {
+    //   case Category.none:
+    //     switch (isDoneFlag) {
+    //       case true:
+    //         switch (question.isAnswered) {
+    //           case true:
+    //             return Container();
+    //           case false:
+    //             return 
+    //         }
+    //     }
+    // }
+    return ((isDoneFlag && question.isAnswered) || (category != Category.none && category != question.category)) ? Container() : 
+    Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               // width: double.infinity,
               decoration: BoxDecoration(

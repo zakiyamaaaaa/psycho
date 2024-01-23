@@ -9,6 +9,7 @@ part 'data_provider.g.dart';
 class Data extends _$Data {
   List<Question> build() {
     final question = mockData.map((e) => Question()
+      ..id = e['id'] as int
       ..title = e['title'] as String
       ..description = e['description'] as String
       ..category = Category.values[e['Category'] as int]
@@ -56,11 +57,11 @@ class Data extends _$Data {
   }
 
   List<Question> getAnsweredQuestions() {
-    return state.where((element) => element.isAnswered == true).toList();;
+    return state.where((element) => element.isAnswered == true).toList();
   }
 
   List<Question> getFavoriteQuestions() {
-    return state.where((element) => element.isFavorite == true).toList();;
+    return state.where((element) => element.isFavorite == true).toList();
   }
   // List<Question> getQuestions(bool isDoneFlag) {
   //   if (isDoneFlag) {

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/provider/data_provider.dart';
-import 'package:psycho/model/question.dart';
 import 'package:psycho/view/home_view.dart';
 
 class HistoryView extends ConsumerStatefulWidget {

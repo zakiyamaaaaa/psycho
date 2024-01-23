@@ -14,7 +14,7 @@ class PsychoTestResultView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selection = question.content.options.firstWhere((element) => element.isSelected == true);
     final selectedIndex = question.content.options.indexWhere((element) => element.isSelected == true);
-    final data = ref.watch(dataProvider);
+    // final data = ref.watch(dataProvider);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -64,19 +64,18 @@ class PsychoTestResultView extends ConsumerWidget {
                   }),
                 ],
             ),),
-            ElevatedButton(onPressed: (){
+            ElevatedButton(onPressed: question.isFavorite ? null : (){
               ref.read(dataProvider.notifier).updateFavorite(question);
-            }, child: Text('お気に入りに追加')),
+            }, child: const Text('お気に入りに追加')),
             ElevatedButton(onPressed: (){
               ref.read(dataProvider.notifier).updateAnswered(question);
               Navigator.popUntil(context, ModalRoute.withName('/'));
-            }, child: Text('閉じる')),
+            }, child: const Text('閉じる')),
             // List.generate(question.content.options.length - 1, (index) => PsychoTestResultOthersContainer())
           ]
         ),
-        
-      ),
-    ),
+          ),
+        ),
       ),
     );
   }

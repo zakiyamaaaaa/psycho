@@ -4,7 +4,7 @@ part 'question.g.dart';
 
 @collection
 class Question {
-  Id id = Isar.autoIncrement;
+  late Id id ;
   late String title;
   late String description;
   @enumerated
@@ -32,6 +32,7 @@ class Option {
 }
 
 enum Category {
+  none(-1),
   love(0),
   business(1),
   relationship(2),
