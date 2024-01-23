@@ -108,44 +108,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 ),
                 child: Column(
                   children: [
-                    
-                    // Container(
-                    //   width: double.infinity,
-                    //   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    //   height: 100,
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(color: Colors.white),
-                    //     borderRadius: BorderRadius.circular(10),
-                    //     // color: Colors.grey[1],
-                    //   ),
-                    //   child: ElevatedButton(
-                    //     onPressed: () {  },
-                    //     style: ElevatedButton.styleFrom(
-                    //       elevation: 5,
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(10),
-                            
-                    //       ),
-                    //       backgroundColor: Colors.grey[200],
-                    //     ),
-                    //     child: 
-                    //       Row(
-                    //         children: [
-                    //           Expanded(
-                    //             child: Column(
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                    //               children: [
-                    //                 Text(data[0].title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                    //                 Text('#性格診断', style: TextStyle(color: Colors.black, ),),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           Icon(Icons.arrow_forward_ios, color: Colors.black,),
-                    //         ],
-                    //       ),
-                    //     ),
-                    // ),
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -163,10 +125,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
       ),
       ),
     );
-  }
-
-  void _refreshData() {
-    
   }
 }
 
@@ -210,13 +168,13 @@ class PsychoTestContainer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return (isDoneFlag && question.isAnswered) ? Container() : Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              width: double.infinity,
-              height: 200,
+              // width: double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(10),
-                // color: Colors.grey[1],
+                color: Colors.grey[1],
               ),
+              
               child: Stack(
                 children: [
                   ElevatedButton( onPressed: () {
@@ -239,20 +197,11 @@ class PsychoTestContainer extends ConsumerWidget {
                         Container(
                       height: 150,
                       width: double.infinity,
-                      // decoration: const BoxDecoration(
-                      //   image: DecorationImage(
-                      //     image: AssetImage('images/backgroundimage_home.png'),
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
                       child: Image.asset(
-                        // 'images/test_thumbnail/_5ffa8355-8f86-451e-8383-987877284fcd.jpeg',
-                        // 'assets/images/thumbnail/_bf398619-e3f6-450d-93f8-2ff04398fbf5.jpeg',
                         question.imagePath,
-                        // question.imagePath,
+                        colorBlendMode: BlendMode.overlay,
                         fit: BoxFit.fitWidth,),
                       ),
-                    // ),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
@@ -263,7 +212,10 @@ class PsychoTestContainer extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(question.title, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                              Text("#${question.category.name}", style: TextStyle(color: Colors.black, ),),
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 5),
+                                child: Text("#${question.category.name}", style: TextStyle(color: Colors.black, ),),
+                              ),
                             ],
                           ),
                         ),
@@ -274,17 +226,19 @@ class PsychoTestContainer extends ConsumerWidget {
                     ],
                     ),
                   ),
-                  // isAnsweredがtrueの場合は黒い透明のコンテナを表示
-                  IgnorePointer(
+                  Positioned.fill(
+                  child: IgnorePointer(
                     ignoring: true,
                     child: question.isAnswered ? Container(
-                      width: double.infinity,
-                      height: 200,
+                      // width: double.infinity,
+                      height: 150,
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ) : Container(),
+                  ),
                   ),
                   Positioned(
                     top: 10,

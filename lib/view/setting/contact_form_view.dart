@@ -26,8 +26,6 @@ class _ContactFormViewState extends State<ContactFormView> {
     NavigationDelegate(
       onProgress: (int progress) {
         //　CircleProgressIndicatorを更新
-        
-
       },
       onPageStarted: (String url) {},
       onPageFinished: (String url) {},
