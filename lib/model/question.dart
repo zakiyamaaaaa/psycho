@@ -13,7 +13,7 @@ class Question {
   bool isFavorite = false;
   late String imagePath;
   late DateTime createdDate;
-  late DateTime answeredDate;
+  late DateTime? answeredDate;
   late Content content;
 }
 

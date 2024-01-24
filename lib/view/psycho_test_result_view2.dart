@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:psycho/model/question.dart';
-import 'package:psycho/provider/data_provider.dart';
+import 'package:psycho/provider/data_provider2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
+
 // スクロール可能なView
-class PsychoTestResultView extends ConsumerWidget {
-  PsychoTestResultView({required this.question, Key? key}) : super(key: key);
+class PsychoTestResultView2 extends ConsumerStatefulWidget {
+  PsychoTestResultView2({required this.question, Key? key}) : super(key: key);
 
   final Question question;
   // final int selectedIndex;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _PsychoTestResultView2State createState() => _PsychoTestResultView2State(question: question);
+}
+
+class _PsychoTestResultView2State extends ConsumerState<PsychoTestResultView2> {
+  _PsychoTestResultView2State({required this.question, Key? key});
+
+  final Question question;
+  // final int selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
     final selection = question.content.options.firstWhere((element) => element.isSelected == true);
     final selectedIndex = question.content.options.indexWhere((element) => element.isSelected == true);
     // final data = ref.watch(dataProvider);
@@ -65,9 +77,12 @@ class PsychoTestResultView extends ConsumerWidget {
                 ],
             ),),
             ElevatedButton(onPressed: question.isFavorite ? null : (){
-              ref.read(dataProvider.notifier).updateFavorite(question);
+              ref.read(data2Provider.notifier).updateFavorite(question);
             }, child: const Text('お気に入りに追加')),
             ElevatedButton(onPressed: (){
+              // setState(() {
+              //   ref.read(data2Provider);
+              // });
               // ref.read(dataProvider.notifier).updateAnswered(question);
               Navigator.popUntil(context, ModalRoute.withName('/'));
             }, child: const Text('閉じる')),

@@ -123,10 +123,10 @@ Question _questionDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Question();
-  object.answeredDate = reader.readDateTime(offsets[0]);
+  object.answeredDate = reader.readDateTimeOrNull(offsets[0]);
   object.category =
       _QuestioncategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
-          Category.love;
+          Category.none;
   object.content = reader.readObjectOrNull<Content>(
         offsets[2],
         ContentSchema.deserialize,
@@ -151,10 +151,10 @@ P _questionDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 1:
       return (_QuestioncategoryValueEnumMap[reader.readByteOrNull(offset)] ??
-          Category.love) as P;
+          Category.none) as P;
     case 2:
       return (reader.readObjectOrNull<Content>(
             offset,
@@ -180,16 +180,18 @@ P _questionDeserializeProp<P>(
 }
 
 const _QuestioncategoryEnumValueMap = {
-  'love': 0,
-  'business': 1,
-  'relationship': 2,
-  'character': 3,
+  'none': 0,
+  'love': 1,
+  'business': 2,
+  'relationship': 3,
+  'character': 4,
 };
 const _QuestioncategoryValueEnumMap = {
-  0: Category.love,
-  1: Category.business,
-  2: Category.relationship,
-  3: Category.character,
+  0: Category.none,
+  1: Category.love,
+  2: Category.business,
+  3: Category.relationship,
+  4: Category.character,
 };
 
 Id _questionGetId(Question object) {
@@ -281,8 +283,25 @@ extension QuestionQueryWhere on QueryBuilder<Question, Question, QWhereClause> {
 
 extension QuestionQueryFilter
     on QueryBuilder<Question, Question, QFilterCondition> {
+  QueryBuilder<Question, Question, QAfterFilterCondition> answeredDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'answeredDate',
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterFilterCondition>
+      answeredDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'answeredDate',
+      ));
+    });
+  }
+
   QueryBuilder<Question, Question, QAfterFilterCondition> answeredDateEqualTo(
-      DateTime value) {
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'answeredDate',
@@ -293,7 +312,7 @@ extension QuestionQueryFilter
 
   QueryBuilder<Question, Question, QAfterFilterCondition>
       answeredDateGreaterThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -306,7 +325,7 @@ extension QuestionQueryFilter
   }
 
   QueryBuilder<Question, Question, QAfterFilterCondition> answeredDateLessThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -319,8 +338,8 @@ extension QuestionQueryFilter
   }
 
   QueryBuilder<Question, Question, QAfterFilterCondition> answeredDateBetween(
-    DateTime lower,
-    DateTime upper, {
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1192,7 +1211,7 @@ extension QuestionQueryProperty
     });
   }
 
-  QueryBuilder<Question, DateTime, QQueryOperations> answeredDateProperty() {
+  QueryBuilder<Question, DateTime?, QQueryOperations> answeredDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'answeredDate');
     });

@@ -32,7 +32,7 @@ class Data extends _$Data {
     if (answeredQuestions.isEmpty) {
       return null;
     }
-    answeredQuestions.sort((a, b) => b.answeredDate.compareTo(a.answeredDate));
+    answeredQuestions.sort((a, b) => b.answeredDate!.compareTo(a.answeredDate!));
     return answeredQuestions.first;
   }
 
@@ -63,14 +63,4 @@ class Data extends _$Data {
   List<Question> getFavoriteQuestions() {
     return state.where((element) => element.isFavorite == true).toList();
   }
-  // List<Question> getQuestions(bool isDoneFlag) {
-  //   if (isDoneFlag) {
-  //     state = state.where((element) => element.isAnswered == false).toList();
-  //     state = [...state];
-  //     return state;
-  //   } else {
-  //     state = state
-      
-  //   }
-  // }
 }

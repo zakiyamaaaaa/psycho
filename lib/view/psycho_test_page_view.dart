@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/view/psycho_test_result_view.dart';
+import 'package:psycho/view/psycho_test_result_view2.dart';
+import 'package:psycho/provider/data_provider2.dart';
 
-class PsychoTestPageView extends StatefulWidget {
+class PsychoTestPageView extends ConsumerStatefulWidget {
   const PsychoTestPageView({required this.question, Key? key}) : super(key: key);
   final Question question;
   @override
   _PsychoTestPageViewState createState() => _PsychoTestPageViewState(question: question);
 }
 
-class _PsychoTestPageViewState extends State<PsychoTestPageView> {
+class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
   // questionを初期化
   _PsychoTestPageViewState({required this.question});
   int selectedIndex = -1;
@@ -65,10 +68,11 @@ class _PsychoTestPageViewState extends State<PsychoTestPageView> {
                   element.isSelected = false;
                 }
               });
+              ref.read(data2Provider.notifier).updateAnswered(question);
 
               Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PsychoTestResultView(question: question)),
+                            MaterialPageRoute(builder: (context) => PsychoTestResultView2(question: question)),
                           );
             },
             child: Text('診断結果を見る')),
