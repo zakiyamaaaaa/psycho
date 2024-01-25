@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,8 +20,10 @@ class Data2 extends _$Data2 {
   }
 
   Future<void> save() async {
+    debugPrint("save action");
     final isar = await ref.read(isarProvider.future);
     final questions = await isar.questions.where().findAll();
+    debugPrint("questions length: ${questions.length}");
     final lastId = mockData.last['id'] as int;
     if (questions.isEmpty) {
       final questionData = mockData.map((e) => Question()
@@ -117,6 +120,18 @@ class Data2 extends _$Data2 {
         await isar.questions.put(data[index]);
       });
     }, error: (e,t){}, loading: (){});
+  }
+  Future<void> removeAll() async {
+    final isar = await ref.read(isarProvider.future);
+    isar.writeTxn(() async {
+      await isar.questions.clear();
+      debugPrint("Remove all");
+    });
+  }
+
+  Future<void> refresh() async {
+    final isar = await ref.read(isarProvider.future);
+    state = AsyncValue.data(await isar.questions.where().findAll());
   }
 
   Future<int> getAnsweredCount() async {

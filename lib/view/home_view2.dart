@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/view/psycho_test_result_view.dart';
+import 'package:collection/collection.dart';
 
 import 'package:psycho/provider/data_provider2.dart';
 import 'package:psycho/view/description_view.dart';
@@ -72,7 +73,12 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                 // height: 80,
                 child: dataProvider.when(data:
                 (data) {
-                  final current = data.firstWhere((element) => element.isAnswered == true);
+                  // 診断済みの質問を取得、まだ無い場合はnull
+
+                  final current = data.firstWhereOrNull((element) => element.isAnswered == true);
+                  if (current == null) {
+                    return Container();
+                  }
                   return ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
@@ -284,8 +290,7 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                         context,
                         MaterialPageRoute(builder: (context) => DescriptionView(question: question)),
                       );
-                      setState(() {
-                      });
+                      setState(() {});
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(0),

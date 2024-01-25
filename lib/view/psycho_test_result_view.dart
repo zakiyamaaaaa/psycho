@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/provider/data_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:psycho/provider/data_provider2.dart';
 
 // スクロール可能なView
 class PsychoTestResultView extends ConsumerWidget {
@@ -67,9 +68,12 @@ class PsychoTestResultView extends ConsumerWidget {
             ElevatedButton(onPressed: question.isFavorite ? null : (){
               ref.read(dataProvider.notifier).updateFavorite(question);
             }, child: const Text('お気に入りに追加')),
-            ElevatedButton(onPressed: (){
+            ElevatedButton(onPressed: () async {
               // ref.read(dataProvider.notifier).updateAnswered(question);
-              Navigator.popUntil(context, ModalRoute.withName('/'));
+              ref.refresh(data2Provider);
+              await Future.delayed(Duration(seconds: 1), () {
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              });
             }, child: const Text('閉じる')),
             // List.generate(question.content.options.length - 1, (index) => PsychoTestResultOthersContainer())
           ]
