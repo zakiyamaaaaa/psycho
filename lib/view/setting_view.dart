@@ -142,6 +142,7 @@ class SettingView extends ConsumerWidget {
                             debugPrint("save in setting_view");
                           });
                           ref.refresh(data2Provider);
+                          ref.refresh(currentQuestionProvider);
                           await Future.delayed(Duration(seconds: 1), () {
                             Navigator.pop(context);
                             Navigator.pop(context);

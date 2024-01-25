@@ -71,12 +71,10 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 width: double.infinity,
                 // height: 80,
-                child: dataProvider.when(data:
+                child: current2.when(data:
                 (data) {
                   // 診断済みの質問を取得、まだ無い場合はnull
-
-                  final current = data.firstWhereOrNull((element) => element.isAnswered == true);
-                  if (current == null) {
+                  if (data == null || current2.isRefreshing) {
                     return Container();
                   }
                   return ElevatedButton(
@@ -88,9 +86,10 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                   backgroundColor: Colors.orange
                 ),
                 onPressed: () {
+                  // if (data == null) return;
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PsychoTestResultView(question: current)),
+                    MaterialPageRoute(builder: (context) => PsychoTestResultView(question: data)),
                   );
                 },
                 child: Container(
@@ -102,7 +101,7 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                   children: [
                     // 白いテキスト
                     Text('あなたの最近のテスト結果', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    Text(current.content.options.firstWhere((element) => element.isSelected == true).answer1, style: TextStyle(color: Colors.white, ),),
+                    Text(data.content.options.firstWhere((element) => element.isSelected == true).answer1, style: TextStyle(color: Colors.white, ),),
                   ],
                 ),
                 )
@@ -290,7 +289,9 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                         context,
                         MaterialPageRoute(builder: (context) => DescriptionView(question: question)),
                       );
-                      setState(() {});
+                      setState(() {
+                        ref.invalidate(currentQuestionProvider);
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(0),

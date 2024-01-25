@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/mock/mock_data.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/provider/isar_provider.dart';
+import 'package:collection/collection.dart';
 
 part 'data_provider2.g.dart';
 
@@ -161,8 +162,14 @@ class Data2 extends _$Data2 {
 }
 
 @riverpod
-Future<Question> currentQuestion(CurrentQuestionRef ref) async {
+Future<Question?> currentQuestion(CurrentQuestionRef ref) async {
   final isar = await ref.read(isarProvider.future);
-  final currentAnsweredQuestion = await isar.questions.where().filter().isAnsweredEqualTo(true).findFirst();
-  return Future.value(currentAnsweredQuestion);
+  // isAnswered = trueがない場合
+  final answeredQuestions = await isar.questions.where().filter().isAnsweredEqualTo(true).findAll();
+  if (answeredQuestions.isEmpty) {
+    return null;
+  }
+  // answerDateが一番新しいものを取得
+  final currentAnsweredQuestion = await isar.questions.where().filter().isAnsweredEqualTo(true).sortByAnsweredDateDesc().findFirst();
+  return currentAnsweredQuestion;
 }

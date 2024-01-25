@@ -6,11 +6,11 @@ part of 'data_provider2.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentQuestionHash() => r'46563a8db94741b8fc03437ad2dc849a80eb87b0';
+String _$currentQuestionHash() => r'6e9b16f2e8d729b0ffcc332d9361abecbead7c86';
 
 /// See also [currentQuestion].
 @ProviderFor(currentQuestion)
-final currentQuestionProvider = AutoDisposeFutureProvider<Question>.internal(
+final currentQuestionProvider = AutoDisposeFutureProvider<Question?>.internal(
   currentQuestion,
   name: r'currentQuestionProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,8 +20,8 @@ final currentQuestionProvider = AutoDisposeFutureProvider<Question>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef CurrentQuestionRef = AutoDisposeFutureProviderRef<Question>;
-String _$data2Hash() => r'1d9738bf20c4a61b9d4119c60a942499b2c2e8d4';
+typedef CurrentQuestionRef = AutoDisposeFutureProviderRef<Question?>;
+String _$data2Hash() => r'f2d672d90bb648cd64d207a0b532dbe8d949ba74';
 
 /// See also [Data2].
 @ProviderFor(Data2)
