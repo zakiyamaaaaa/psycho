@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
-import 'package:psycho/view/psycho_test_result_view.dart';
 import 'package:psycho/view/psycho_test_result_view2.dart';
 import 'package:psycho/provider/data_provider2.dart';
 

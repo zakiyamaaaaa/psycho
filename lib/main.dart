@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/view/home_view.dart';
 import 'package:psycho/view/home_view2.dart';
 import 'package:psycho/view/history_view.dart';
+import 'package:psycho/view/history_view2.dart';
+import 'package:psycho/provider/data_provider2.dart';
 import 'package:psycho/view/setting_view.dart';
 import 'package:psycho/provider/tab_provider.dart' show tabProvider, TabType;
 
@@ -21,7 +23,7 @@ class MainApp extends ConsumerWidget {
     );
   }
 }
-final pages = [HomeView2(), HistoryView(), SettingView()];
+final pages = [HomeView2(), HistoryView2(), SettingView()];
 class TabBarViews extends ConsumerWidget {
   const TabBarViews({super.key});
 
@@ -42,6 +44,12 @@ class TabBarViews extends ConsumerWidget {
           ],
           currentIndex: tab.index,
           onTap: (index) {
+            if (index == TabType.home.index) {
+              ref.invalidate(data2Provider);
+            } else if (index == TabType.history.index) {
+              ref.invalidate(answeredQuestionsProvider);
+              ref.invalidate(favoriteQuestionsProvider);
+            }
             ref.read(tabProvider.notifier).switchTab(TabType.values[index]);
           },
       ),

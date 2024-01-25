@@ -70,7 +70,7 @@ class PsychoTestResultView extends ConsumerWidget {
             }, child: const Text('お気に入りに追加')),
             ElevatedButton(onPressed: () async {
               // ref.read(dataProvider.notifier).updateAnswered(question);
-              ref.refresh(data2Provider);
+              ref.invalidate(data2Provider);
               await Future.delayed(Duration(seconds: 1), () {
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               });

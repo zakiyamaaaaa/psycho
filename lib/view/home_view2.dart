@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/view/psycho_test_result_view.dart';
-import 'package:collection/collection.dart';
 
 import 'package:psycho/provider/data_provider2.dart';
 import 'package:psycho/view/description_view.dart';
@@ -113,35 +110,6 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                   return const Center(child: Text("読み込み中"));
                 })
               ),
-              //   child: ElevatedButton(
-              //   style: ElevatedButton.styleFrom(
-              //     elevation: 5,
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //     backgroundColor: Colors.orange
-              //   ),
-              //   onPressed: () {
-              //     current.then((value) => value != null ? Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => PsychoTestResultView(question: value)),
-              //     ) : null);
-              //   },
-              //   child: Container(
-              //     padding: const EdgeInsets.symmetric(vertical: 10),
-              //   child: Column(
-              //     // 左寄せ
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       // 白いテキスト
-              //       // Text((current.then((value) => value != null )) != null ? 'あなたの最近のテスト結果': "早速診断にトライ！", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-              //       // Text(current != null ? current.content.options.firstWhere((element) => element.isSelected == true).answer1 : "", style: TextStyle(color: Colors.white, ),),
-              //     ],
-              //   ),
-              //   ),
-              //   ),
-              // ),
               Container(
                 width: double.infinity,
                 height: 80,
@@ -159,9 +127,7 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                           const Spacer(),
-                          
                           Text('カテゴリー'),
-                          
                           Container(
                             height: 40,
                             decoration: BoxDecoration(
@@ -180,8 +146,8 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                             items: _dropDownMenuItems,
                             onChanged: (value) {
                               setState(() {
-                                ref.read(data2Provider.future);
                                 if(value != null) dropdownValue = value;
+                                ref.invalidate(data2Provider);
                               });
                             },
                           ),
@@ -196,7 +162,7 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
                             
                             setState(() {
                               _isToggle = value;
-                              ref.refresh(data2Provider.future);
+                              ref.invalidate(data2Provider);
                             });
 
                           }),
@@ -281,7 +247,6 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey[1],
               ),
-              
               child: Stack(
                 children: [
                   ElevatedButton( onPressed: () async {
@@ -291,6 +256,7 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                       );
                       setState(() {
                         ref.invalidate(currentQuestionProvider);
+                        ref.invalidate(answeredQuestionsProvider);
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -354,9 +320,12 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                     top: 10,
                     right: 10,
                     child: IconButton(
-                      onPressed: (){
+                      onPressed: () async {
+                        await ref.read(data2Provider.notifier).updateFavorite(question);
+                        ref.invalidate(answeredQuestionsProvider);
+                        ref.invalidate(favoriteQuestionsProvider);
+                        // ref.invalidate(data2Provider);
                         setState(() {
-                          ref.read(data2Provider.notifier).updateFavorite(question);
                         });
                       },
                       icon: Icon(

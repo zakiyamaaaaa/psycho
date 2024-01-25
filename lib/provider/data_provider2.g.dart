@@ -6,7 +6,7 @@ part of 'data_provider2.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentQuestionHash() => r'6e9b16f2e8d729b0ffcc332d9361abecbead7c86';
+String _$currentQuestionHash() => r'e713a45d0d4460b4d57a043fd9f38e5a3cfad415';
 
 /// See also [currentQuestion].
 @ProviderFor(currentQuestion)
@@ -21,6 +21,38 @@ final currentQuestionProvider = AutoDisposeFutureProvider<Question?>.internal(
 );
 
 typedef CurrentQuestionRef = AutoDisposeFutureProviderRef<Question?>;
+String _$answeredQuestionsHash() => r'fb98f647011a4b0fde349ed7249d4b173629ed2a';
+
+/// See also [answeredQuestions].
+@ProviderFor(answeredQuestions)
+final answeredQuestionsProvider =
+    AutoDisposeFutureProvider<List<Question>>.internal(
+  answeredQuestions,
+  name: r'answeredQuestionsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$answeredQuestionsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AnsweredQuestionsRef = AutoDisposeFutureProviderRef<List<Question>>;
+String _$favoriteQuestionsHash() => r'992a19a9d1550bc1025d4fc87bf22dd2bcea945b';
+
+/// See also [favoriteQuestions].
+@ProviderFor(favoriteQuestions)
+final favoriteQuestionsProvider =
+    AutoDisposeFutureProvider<List<Question>>.internal(
+  favoriteQuestions,
+  name: r'favoriteQuestionsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$favoriteQuestionsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FavoriteQuestionsRef = AutoDisposeFutureProviderRef<List<Question>>;
 String _$data2Hash() => r'f2d672d90bb648cd64d207a0b532dbe8d949ba74';
 
 /// See also [Data2].
