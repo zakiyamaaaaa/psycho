@@ -34,7 +34,6 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/images/thumbnail/
     - images/
     - images/thumbnail/
     # - images/test_thumbnail/1/_5ffa8355-8f86-451e-8383-987877284fcd.jpeg

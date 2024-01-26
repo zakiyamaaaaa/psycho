@@ -22,6 +22,7 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
   @override
   void initState() {
     super.initState();
+    debugPrint('initState in home view2');
     _loadJSON().then((_) => Future.delayed(const Duration(seconds: 1), () => _getQuestions()));
   }
 

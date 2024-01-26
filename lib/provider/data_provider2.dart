@@ -25,6 +25,7 @@ class Data2 extends _$Data2 {
     final questions = await isar.questions.where().findAll();
     debugPrint("questions length: ${questions.length}");
     final lastId = mockData.last['id'] as int;
+    debugPrint("lastId: $lastId");
     if (questions.isEmpty) {
       final questionData = mockData.map((e) => Question()
       ..id = e['id'] as int
@@ -49,8 +50,8 @@ class Data2 extends _$Data2 {
     } else if ( lastId > questions.last.id) {
       final lastId = questions.last.id;
       final addQuestionData = mockData.where((element) => element['id'] > lastId).toList();
-      addQuestionData.map((e) {
-        final question = Question()
+      debugPrint("addQuestionData length: ${addQuestionData.length}");
+      final additionalQuestions = addQuestionData.map((e) => Question()
         ..id = e['id'] as int
         ..title = e['title'] as String
         ..description = e['description'] as String
@@ -65,12 +66,11 @@ class Data2 extends _$Data2 {
               ..text = e['text'] as String
               ..answer1 = e['answer1'] as String
               ..answer2 = e['answer2'] as String)
+            .toList())
             .toList();
         isar.writeTxn(() async {
-          await isar.questions.put(question);
+          await isar.questions.putAll(additionalQuestions);
         });
-      });
-      return;
     } else if(lastId == questions.last.id) {
       return;
     }
