@@ -101,6 +101,8 @@ class HistoryExpansionTile2 extends ConsumerWidget {
             subtitle: Text('あなたの回答\n${question.content.options.firstWhere((element) => element.isSelected).answer1}'),
             children: [
               Text(question.content.options.firstWhere((element) => element.isSelected).answer2),
+              const SizedBox(height: 10,),
+              Text("回答日：${question.answeredDate}", textAlign: TextAlign.right,),
             ]
             );
               },

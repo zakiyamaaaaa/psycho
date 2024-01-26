@@ -27,14 +27,14 @@ class SettingView extends ConsumerWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          ListTile(
-            leading: CircleAvatar(child: Icon(Icons.star)),
-            title: Text('アップグレードする'),
-            onTap: () {
-              Navigator.pushNamed(context, '/account');
-            },
-          ),
-          const Divider(height: 0,),
+          // ListTile(
+          //   leading: CircleAvatar(child: Icon(Icons.star)),
+          //   title: Text('アップグレードする'),
+          //   onTap: () {
+          //     Navigator.pushNamed(context, '/account');
+          //   },
+          // ),
+          // const Divider(height: 0,),
           ListTile(
             leading: CircleAvatar(child: Icon(Icons.mail)),
             title: Text('問い合わせ'),

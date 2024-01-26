@@ -7,8 +7,8 @@ import 'package:psycho/view/history_view.dart';
 import 'package:psycho/view/history_view2.dart';
 import 'package:psycho/provider/data_provider2.dart';
 import 'package:psycho/view/setting_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:psycho/provider/tab_provider.dart' show tabProvider, TabType;
-
 void main() {
   runApp(const ProviderScope(child: MainApp()));
 }
@@ -19,6 +19,8 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: DefaultTabController(length: pages.length, child: TabBarViews(), initialIndex: 0)
     );
   }

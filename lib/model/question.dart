@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 part 'question.g.dart';
 
 @collection
@@ -38,7 +39,26 @@ enum Category {
   relationship(2),
   character(3);
 
-  const Category(this.num);
+  const Category(
+    this.num
+    // this.numによってdisplayTextを返す
+    );
 
   final int num;
+
+  // Stringで返すときにlocalaizeする
+  String displayText(BuildContext context) {
+    switch (this) {
+      case Category.love:
+        return AppLocalizations.of(context)!.love;
+      case Category.business:
+        return AppLocalizations.of(context)!.business;
+      case Category.relationship:
+        return AppLocalizations.of(context)!.relationship;
+      case Category.character:
+        return AppLocalizations.of(context)!.character;
+      default:
+        return '未分類';
+    }
+  }
 }

@@ -1,0 +1,13 @@
+{
+    "@@locale": "en",
+    "business": "Business",
+    "relationship": "Relationship",
+    "character": "Character",
+    "love": "Love",
+    "category": "Category",
+    "exception": "Exception",
+    "yourCurrentAnswer": "Your current answer",
+    "errorOccurred": "Error",
+    "loadingText": "Loading...",
+    "done": "Done"
+}
