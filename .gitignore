@@ -42,4 +42,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-lib/mock/mock_data.dart
+/lib/mock/mock_data.dart
