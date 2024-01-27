@@ -8,10 +8,42 @@ import 'package:psycho/view/setting/privacy_policy_view.dart';
 import 'package:psycho/view/setting/term_view.dart';
 import 'package:psycho/view/setting/contact_form_view.dart';
 import 'package:share_plus/share_plus.dart';
-
 import 'package:psycho/provider/data_provider2.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+enum SettingViewType {
+    contact,
+    term,
+    privacyPolicy,
+    shareApp,
+    evaluateApp,
+    resetData,
+}
+
 class SettingView extends ConsumerWidget {
+
+  Widget customAvatar(SettingViewType type) {
+    IconData icon;
+    switch (type){
+      case SettingViewType.contact:
+        icon = Icons.mail;
+      case SettingViewType.term:
+        icon = Icons.assignment_rounded;
+      case SettingViewType.privacyPolicy:
+        icon = Icons.privacy_tip_rounded;
+      case SettingViewType.shareApp:
+        icon = Icons.ios_share;
+      case SettingViewType.evaluateApp:
+        icon = Icons.thumb_up;
+      case SettingViewType.resetData:
+        icon = Icons.delete;
+    }
+    
+    return CircleAvatar(
+      backgroundColor: Colors.orange.shade400,
+      child: Icon(icon, color: Colors.white,));
+  }
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -27,45 +59,37 @@ class SettingView extends ConsumerWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          // ListTile(
-          //   leading: CircleAvatar(child: Icon(Icons.star)),
-          //   title: Text('アップグレードする'),
-          //   onTap: () {
-          //     Navigator.pushNamed(context, '/account');
-          //   },
-          // ),
-          // const Divider(height: 0,),
           ListTile(
-            leading: CircleAvatar(child: Icon(Icons.mail, color: Colors.white,), backgroundColor: Colors.orange.shade300,),
-            title: Text('問い合わせ'),
+            leading: customAvatar(SettingViewType.contact),
+            title: Text(AppLocalizations.of(context)!.contact),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ContactFormView()));
             },
           ),
           const Divider(height: 0,),
           ListTile(
-            leading: CircleAvatar(child: Icon(Icons.assignment_rounded)),
-            title: Text('利用規約'),
+            leading:customAvatar(SettingViewType.term),
+            title: Text(AppLocalizations.of(context)!.termOfUsage),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => TermView()));
             },
           ),
           const Divider(height: 0,),
           ListTile(
-            leading: const CircleAvatar(child: Icon(Icons.privacy_tip_rounded)),
-            title: Text('プライバシーポリシー'),
+            leading: customAvatar(SettingViewType.privacyPolicy),
+            title: Text(AppLocalizations.of(context)!.privacyPolicy),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyView()));
             },
           ),
           const Divider(height: 0,),
           ListTile(
-            leading: const CircleAvatar(child: Icon(Icons.ios_share)),
-            title: Text('アプリを共有する'),
+            leading: customAvatar(SettingViewType.shareApp),
+            title: Text(AppLocalizations.of(context)!.shareApp),
             onTap: () {
               // Share.share('hogehoge');
               showCupertinoModalPopup(
-                context: context, 
+                context: context,
                 builder: (BuildContext context) =>
               CupertinoActionSheet(
                 actions: [
@@ -84,17 +108,17 @@ class SettingView extends ConsumerWidget {
                         [
                         XFile.fromData(buffer.asUint8List(image.offsetInBytes, image.lengthInBytes), name: 'photo.png', mimeType: 'image/png')
                         ],
-                        subject: 'QRコード'
+                        subject: AppLocalizations.of(context)!.qrCode
                       );
                     },
-                    child: const Text('QRコード'),
+                    child: Text(AppLocalizations.of(context)!.qrCode),
                   ),
                 ],
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('キャンセル'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
               ),
               );
@@ -102,32 +126,33 @@ class SettingView extends ConsumerWidget {
           ),
           Divider(height: 0,),
           ListTile(
-            leading: CircleAvatar(child: Icon(Icons.thumb_up)),
-            title: Text('アプリを評価する'),
+            leading: customAvatar(SettingViewType.evaluateApp),
+            title: Text(AppLocalizations.of(context)!.evaluateApp),
             onTap: () {
+              // TODO: not yet implemented
               Navigator.pushNamed(context, '/account');
             },
           ),
           Divider(height: 0,),
           ListTile(
-            leading: CircleAvatar(child: Icon(Icons.delete)),
-            title: Text('データをリセットする'),
+            leading: customAvatar(SettingViewType.resetData),
+            title: Text(AppLocalizations.of(context)!.resetDataTitle),
             onTap: () {
               showDialog(
                 context: context, 
                 builder: (_){
                   return CupertinoAlertDialog(
-                    title: Text('データをリセットしますか？'),
-                    content: Text('データをリセットすると、お気に入りや診断結果が削除されます。'),
+                    title: Text(AppLocalizations.of(context)!.resetData),
+                    content: Text(AppLocalizations.of(context)!.resetDataWarning),
                     actions: [
                       CupertinoDialogAction(
-                        child: Text('キャンセル'),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
                       CupertinoDialogAction(
-                        child: Text('リセット'),
+                        child: Text(AppLocalizations.of(context)!.reset),
                         onPressed: () async {
                           // 処理が終わるまでローディングビューを表示
                           showDialog(

@@ -21,5 +21,16 @@
     "favorites": "お気に入り",
     "noTestHistory": "テスト履歴がありません",
     "noFavorites": "お気に入りがありません",
+    "contact": "お問い合わせ",
+    "termOfUsage": "利用規約",
+    "privacyPolicy": "プライバシーポリシー",
+    "shareApp": "アプリを共有する",
+    "qrCode": "QRコード",
+    "cancel":"キャンセル",
+    "evaluateApp":"アプリを評価する",
+    "resetDataTitle": "アプリをリセットする",
+    "resetData" : "アプリデータをリセットしますか？",
+    "resetDataWarning": "アプリデータをリセットすると、お気に入りや診断結果が削除されます。",
+    "reset": "リセット",
     "done": "診断済み"
 }

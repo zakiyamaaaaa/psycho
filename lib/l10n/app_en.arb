@@ -20,6 +20,17 @@
     "favorites": "Favorites",
     "noTestHistory": "No test history",
     "noFavorites": "No favorites",
+    "contact": "Contact",
+    "termOfUsage": "Term of usage",
+    "privacyPolicy": "Privacy policy",
+    "shareApp": "Share the app",
+    "qrCode": "QR code",
+    "cancel":"Cancel",
+    "evaluateApp":"Evaluate the app",
+    "resetDataTitle": "Reset the app",
+    "resetData" : "Reset the data?",
+    "resetDataWarning": "Resetting data will delete favorites and diagnostic results.",
+    "reset": "Reset",
     "otherOptions":"Other options",
     "done": "Done"
 }
