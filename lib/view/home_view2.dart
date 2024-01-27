@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,7 @@ import 'package:psycho/view/psycho_test_result_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:psycho/provider/data_provider2.dart';
 import 'package:psycho/view/description_view.dart';
+import 'package:flutter/widgets.dart';
 
 class HomeView2 extends ConsumerStatefulWidget {
   const HomeView2({Key? key}) : super(key: key);
@@ -253,18 +256,8 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
 
   @override
   Widget build(BuildContext context) {
-    // switch (category) {
-    //   case Category.none:
-    //     switch (isDoneFlag) {
-    //       case true:
-    //         switch (question.isAnswered) {
-    //           case true:
-    //             return Container();
-    //           case false:
-    //             return 
-    //         }
-    //     }
-    // }
+    // imageCache.clear();
+    imageCache.clearLiveImages();
     return ((isDoneFlag && question.isAnswered) || (category != Category.none && category != question.category)) ? Container() : 
     Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -300,9 +293,9 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                         Container(
                       height: 150,
                       width: double.infinity,
+                      // child: Image(image: image),
                       child: Image.asset(
                         question.imagePath,
-                        colorBlendMode: BlendMode.overlay,
                         fit: BoxFit.fitWidth,),
                       ),
                     Container(
@@ -356,6 +349,7 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                         });
                       },
                       icon: Icon(
+                        size: 30,
                         question.isFavorite ? Icons.favorite : Icons.favorite_border,
                         color: Colors.pink[200],
                       ),

@@ -3,7 +3,8 @@ import 'package:psycho/model/question.dart';
 
 import 'package:psycho/view/psycho_test_page_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:psycho/provider/data_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:psycho/provider/data_provider2.dart';
 
 class DescriptionView extends ConsumerStatefulWidget {
   const DescriptionView({required this.question, Key? key}) : super(key: key);
@@ -22,15 +23,19 @@ class _DescriptionViewState extends ConsumerState<DescriptionView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Description View'),
+        title: const Text(''),
         actions: [
           IconButton(
             onPressed: () {
               setState(() {
-                ref.read(dataProvider.notifier).updateFavorite(question);
+                ref.read(data2Provider.notifier).updateFavorite(question);
               });
             },
-            icon: question.isFavorite ? const Icon(Icons.favorite) : const Icon(Icons.favorite_border),
+            icon: Icon(
+              size: 30,
+                        question.isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: Colors.pink[200],
+                      ),
           ),
         ],
       ),
@@ -75,9 +80,8 @@ class _DescriptionViewState extends ConsumerState<DescriptionView> {
               )
               );
             },
-            child: Text('テストする')),
+            child: Text(AppLocalizations.of(context)!.play, style: const TextStyle(color: Colors.black87),)),
           ],
-        
       ),
         ),
     ),

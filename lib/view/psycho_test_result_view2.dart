@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/provider/data_provider2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -61,7 +62,7 @@ class _PsychoTestResultView2State extends ConsumerState<PsychoTestResultView2> {
                       ],
                     ),
                   ),
-                  const Text("その他の項目について", style: TextStyle(fontSize: 20),),
+                  Text(AppLocalizations.of(context)!.otherOptions, style: const TextStyle(fontSize: 20),),
                   ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -78,14 +79,14 @@ class _PsychoTestResultView2State extends ConsumerState<PsychoTestResultView2> {
             ),),
             ElevatedButton(onPressed: question.isFavorite ? null : (){
               ref.read(data2Provider.notifier).updateFavorite(question);
-            }, child: const Text('お気に入りに追加')),
+            }, child: Text(AppLocalizations.of(context)!.addFavorite)),
             ElevatedButton(onPressed: (){
               // setState(() {
               //   ref.read(data2Provider);
               // });
               // ref.read(dataProvider.notifier).updateAnswered(question);
               Navigator.popUntil(context, ModalRoute.withName('/'));
-            }, child: const Text('閉じる')),
+            }, child: Text(AppLocalizations.of(context)!.close)),
             // List.generate(question.content.options.length - 1, (index) => PsychoTestResultOthersContainer())
           ]
         ),

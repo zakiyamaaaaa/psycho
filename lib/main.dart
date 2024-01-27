@@ -19,6 +19,13 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      theme: ThemeData(
+        iconTheme: const IconThemeData(color: Colors.white),
+        colorScheme: ColorScheme.fromSwatch(
+          backgroundColor: Colors.white,
+          primarySwatch: Colors.orange,
+        )
+      ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: DefaultTabController(length: pages.length, child: TabBarViews(), initialIndex: 0)
@@ -39,10 +46,10 @@ class TabBarViews extends ConsumerWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.orange,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.abc_outlined), label: 'History'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.home), label: AppLocalizations.of(context)!.home),
+          BottomNavigationBarItem(icon: const Icon(Icons.auto_awesome), label: AppLocalizations.of(context)!.history),
+          BottomNavigationBarItem(icon: const Icon(Icons.settings), label: AppLocalizations.of(context)!.setting),
           ],
           currentIndex: tab.index,
           onTap: (index) {

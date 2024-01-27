@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/view/psycho_test_result_view2.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:psycho/provider/data_provider2.dart';
 
 class PsychoTestPageView extends ConsumerStatefulWidget {
@@ -74,7 +75,7 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
                             MaterialPageRoute(builder: (context) => PsychoTestResultView2(question: question)),
                           );
             },
-            child: Text('診断結果を見る')),
+            child: Text(AppLocalizations.of(context)!.showResult, style: const TextStyle(fontWeight: FontWeight.bold),)),
           ],
         ),
       ),

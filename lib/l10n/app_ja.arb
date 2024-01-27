@@ -1,5 +1,8 @@
 {
     "@@locale": "ja",
+    "home": "ホーム",
+    "history" : "アクティビティ",
+    "setting" : "設定",
     "business": "ビジネス",
     "relationship": "人間関係",
     "character": "性格診断",
@@ -9,5 +12,14 @@
     "yourCurrentAnswer": "あなたの最近の回答",
     "errorOccurred": "エラーが発生しました",
     "loadingText": "読み込み中...",
+    "play": "テストする",
+    "showResult": "結果を見る",
+    "addFavorite":"お気に入りに追加",
+    "close": "閉じる",
+    "otherOptions":"他の項目について",
+    "testHistory": "テスト履歴",
+    "favorites": "お気に入り",
+    "noTestHistory": "テスト履歴がありません",
+    "noFavorites": "お気に入りがありません",
     "done": "診断済み"
 }

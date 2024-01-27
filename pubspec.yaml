@@ -16,6 +16,7 @@ dependencies:
   intl: ^0.18.1
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
+  lottie: ^3.0.0
   path_provider: ^2.1.2
   riverpod_annotation: ^2.3.3
   share_plus: ^7.2.1
@@ -36,5 +37,7 @@ flutter:
   assets:
     - images/
     - images/thumbnail/
+    - assets/crying.json
+    - assets/making.json
     # - images/test_thumbnail/1/_5ffa8355-8f86-451e-8383-987877284fcd.jpeg
     # - images/test_thumbnail/2/_bf398619-e3f6-450d-93f8-2ff04398fbf5.jpeg

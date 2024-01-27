@@ -36,7 +36,7 @@ class SettingView extends ConsumerWidget {
           // ),
           // const Divider(height: 0,),
           ListTile(
-            leading: CircleAvatar(child: Icon(Icons.mail)),
+            leading: CircleAvatar(child: Icon(Icons.mail, color: Colors.white,), backgroundColor: Colors.orange.shade300,),
             title: Text('問い合わせ'),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ContactFormView()));

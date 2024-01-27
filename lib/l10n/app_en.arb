@@ -1,5 +1,8 @@
 {
     "@@locale": "en",
+    "home": "Home",
+    "history" : "History&Fav",
+    "setting" : "Setting",
     "business": "Business",
     "relationship": "Relationship",
     "character": "Character",
@@ -9,5 +12,14 @@
     "yourCurrentAnswer": "Your current answer",
     "errorOccurred": "Error",
     "loadingText": "Loading...",
+    "play": "Play",
+    "showResult": "Go to Result",
+    "addFavorite":"Add favorite",
+    "close":"Close",
+    "testHistory": "Test History",
+    "favorites": "Favorites",
+    "noTestHistory": "No test history",
+    "noFavorites": "No favorites",
+    "otherOptions":"Other options",
     "done": "Done"
 }
