@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,7 +42,7 @@ class _HomeViewState2 extends ConsumerState<HomeView2> {
     final List<DropdownMenuItem<Category>> _dropDownMenuItems = Category.values.map((category) {
     return DropdownMenuItem(
       value: category,
-      child: Text(category == Category.none ? "すべて" : category.displayText(context)),
+      child: Text(category == Category.none ? AppLocalizations.of(context)!.all : category.displayText(context)),
     );
   }).toList();
     final dataProvider = ref.watch(data2Provider);
