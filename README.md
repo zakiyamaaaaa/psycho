@@ -1,9 +1,9 @@
 # What it is
 
 【Flutter】心理テストアプリ
-![app_overview1](https://github.com/zakiyamaaaaa/psycho/assets/24502248/2fcdf19e-1e04-4499-84d3-d5e7e2746219)
-![app_overview2](https://github.com/zakiyamaaaaa/psycho/assets/24502248/fbe33c61-0d76-488c-a938-73fe69432234)
-![app_overview3](https://github.com/zakiyamaaaaa/psycho/assets/24502248/b12a4dae-1bbe-4acd-ae6c-8cc5c1f10563)
+<img width="200" alt="app_overview1" src="https://github.com/zakiyamaaaaa/psycho/assets/24502248/2fcdf19e-1e04-4499-84d3-d5e7e2746219">
+<img width="200" alt="app_overview2" src="https://github.com/zakiyamaaaaa/psycho/assets/24502248/fbe33c61-0d76-488c-a938-73fe69432234">
+<img width="200" alt="app_overview3" src="https://github.com/zakiyamaaaaa/psycho/assets/24502248/b12a4dae-1bbe-4acd-ae6c-8cc5c1f10563">
 
 - アニメーション
 [Lottieを使用し、アニメーションを表現](![app_animation](https://github.com/zakiyamaaaaa/psycho/assets/24502248/5db0d5de-5cf3-4cdc-b6ae-b75d2d329693))
