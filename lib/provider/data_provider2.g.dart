@@ -53,7 +53,7 @@ final favoriteQuestionsProvider =
 );
 
 typedef FavoriteQuestionsRef = AutoDisposeFutureProviderRef<List<Question>>;
-String _$data2Hash() => r'f2d672d90bb648cd64d207a0b532dbe8d949ba74';
+String _$data2Hash() => r'7f73607c538435f9d318ec061819d3ae770a2f13';
 
 /// See also [Data2].
 @ProviderFor(Data2)

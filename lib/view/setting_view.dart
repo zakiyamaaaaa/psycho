@@ -142,16 +142,18 @@ class SettingView extends ConsumerWidget {
                 context: context, 
                 builder: (_){
                   return CupertinoAlertDialog(
-                    title: Text(AppLocalizations.of(context)!.resetData),
+                    title: Text(AppLocalizations.of(context)!.resetData, style: const TextStyle(color: Colors.red),),
                     content: Text(AppLocalizations.of(context)!.resetDataWarning),
                     actions: [
                       CupertinoDialogAction(
+                        textStyle: const TextStyle(color: Colors.black),
                         child: Text(AppLocalizations.of(context)!.cancel),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
                       CupertinoDialogAction(
+                        textStyle: const TextStyle(color: Colors.red),
                         child: Text(AppLocalizations.of(context)!.reset),
                         onPressed: () async {
                           // 処理が終わるまでローディングビューを表示

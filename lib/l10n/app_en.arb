@@ -8,6 +8,7 @@
     "character": "Character",
     "love": "Love",
     "category": "Category",
+    "fortune": "Fortune",
     "exception": "Exception",
     "yourCurrentAnswer": "Your current answer",
     "errorOccurred": "Error",

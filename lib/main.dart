@@ -20,6 +20,11 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       theme: ThemeData(
+        dialogTheme: DialogTheme(
+          backgroundColor: Colors.white,
+          titleTextStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          contentTextStyle: const TextStyle(color: Colors.black, fontSize: 16),
+        ),
         iconTheme: const IconThemeData(color: Colors.white),
         colorScheme: ColorScheme.fromSwatch(
           backgroundColor: Colors.white,

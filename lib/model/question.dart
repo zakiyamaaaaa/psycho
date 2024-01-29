@@ -33,11 +33,12 @@ class Option {
 }
 
 enum Category {
-  none(-1),
   love(0),
-  business(1),
+  character(1),
   relationship(2),
-  character(3);
+  fortune(3),
+  none(-1);
+  
 
   const Category(
     this.num
@@ -51,12 +52,12 @@ enum Category {
     switch (this) {
       case Category.love:
         return AppLocalizations.of(context)!.love;
-      case Category.business:
-        return AppLocalizations.of(context)!.business;
       case Category.relationship:
         return AppLocalizations.of(context)!.relationship;
       case Category.character:
         return AppLocalizations.of(context)!.character;
+      case Category.fortune:
+        return AppLocalizations.of(context)!.fortune;
       default:
         return '未分類';
     }
