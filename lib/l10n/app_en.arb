@@ -1,5 +1,6 @@
 {
     "@@locale": "en",
+    "all": "All",
     "home": "Home",
     "history" : "History&Fav",
     "setting" : "Setting",

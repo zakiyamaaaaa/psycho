@@ -126,7 +126,7 @@ Question _questionDeserialize(
   object.answeredDate = reader.readDateTimeOrNull(offsets[0]);
   object.category =
       _QuestioncategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
-          Category.love;
+          Category.none;
   object.content = reader.readObjectOrNull<Content>(
         offsets[2],
         ContentSchema.deserialize,
@@ -154,7 +154,7 @@ P _questionDeserializeProp<P>(
       return (reader.readDateTimeOrNull(offset)) as P;
     case 1:
       return (_QuestioncategoryValueEnumMap[reader.readByteOrNull(offset)] ??
-          Category.love) as P;
+          Category.none) as P;
     case 2:
       return (reader.readObjectOrNull<Content>(
             offset,
@@ -180,18 +180,18 @@ P _questionDeserializeProp<P>(
 }
 
 const _QuestioncategoryEnumValueMap = {
-  'love': 0,
-  'character': 1,
-  'relationship': 2,
-  'fortune': 3,
-  'none': 4,
+  'none': 0,
+  'love': 1,
+  'character': 2,
+  'relationship': 3,
+  'fortune': 4,
 };
 const _QuestioncategoryValueEnumMap = {
-  0: Category.love,
-  1: Category.character,
-  2: Category.relationship,
-  3: Category.fortune,
-  4: Category.none,
+  0: Category.none,
+  1: Category.love,
+  2: Category.character,
+  3: Category.relationship,
+  4: Category.fortune,
 };
 
 Id _questionGetId(Question object) {

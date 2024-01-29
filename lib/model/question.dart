@@ -33,19 +33,11 @@ class Option {
 }
 
 enum Category {
-  love(0),
-  character(1),
-  relationship(2),
-  fortune(3),
-  none(-1);
-  
-
-  const Category(
-    this.num
-    // this.numによってdisplayTextを返す
-    );
-
-  final int num;
+  none,
+  love,
+  character,
+  relationship,
+  fortune;
 
   // Stringで返すときにlocalaizeする
   String displayText(BuildContext context) {
