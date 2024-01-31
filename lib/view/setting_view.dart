@@ -8,7 +8,7 @@ import 'package:psycho/view/setting/privacy_policy_view.dart';
 import 'package:psycho/view/setting/term_view.dart';
 import 'package:psycho/view/setting/contact_form_view.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:psycho/provider/data_provider2.dart';
+import 'package:psycho/provider/data_provider.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -163,12 +163,12 @@ class SettingView extends ConsumerWidget {
                               return const Center(child: CircularProgressIndicator(),);
                             },
                           );
-                          await ref.read(data2Provider.notifier).removeAll();
+                          await ref.read(dataProvider.notifier).removeAll();
                           await Future.delayed(Duration(seconds: 1), () async {
-                            await ref.read(data2Provider.notifier).save();
+                            await ref.read(dataProvider.notifier).save();
                             debugPrint("save in setting_view");
                           });
-                          ref.invalidate(data2Provider);
+                          ref.invalidate(dataProvider);
                           ref.invalidate(currentQuestionProvider);
                           await Future.delayed(Duration(seconds: 1), () {
                             Navigator.pop(context);

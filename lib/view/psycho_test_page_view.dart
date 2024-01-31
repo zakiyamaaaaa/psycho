@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
-import 'package:psycho/view/psycho_test_result_view2.dart';
+import 'package:psycho/view/psycho_test_result_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:psycho/provider/data_provider2.dart';
+import 'package:psycho/provider/data_provider.dart';
 
 class PsychoTestPageView extends ConsumerStatefulWidget {
   const PsychoTestPageView({required this.question, Key? key}) : super(key: key);
@@ -68,11 +68,11 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
                   element.isSelected = false;
                 }
               });
-              ref.read(data2Provider.notifier).updateAnswered(question);
+              ref.read(dataProvider.notifier).updateAnswered(question);
 
               Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PsychoTestResultView2(question: question)),
+                            MaterialPageRoute(builder: (context) => PsychoTestResultView(question: question)),
                           );
             },
             child: Text(AppLocalizations.of(context)!.showResult, style: const TextStyle(fontWeight: FontWeight.bold),)),

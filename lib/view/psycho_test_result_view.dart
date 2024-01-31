@@ -2,17 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/provider/data_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:psycho/provider/data_provider2.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 
 // スクロール可能なView
-class PsychoTestResultView extends ConsumerWidget {
+class PsychoTestResultView extends ConsumerStatefulWidget {
   PsychoTestResultView({required this.question, Key? key}) : super(key: key);
 
   final Question question;
   // final int selectedIndex;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _PsychoTestResultViewState createState() => _PsychoTestResultViewState(question: question);
+}
+
+class _PsychoTestResultViewState extends ConsumerState<PsychoTestResultView> {
+  _PsychoTestResultViewState({required this.question, Key? key});
+
+  final Question question;
+  // final int selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
     final selection = question.content.options.firstWhere((element) => element.isSelected == true);
     final selectedIndex = question.content.options.indexWhere((element) => element.isSelected == true);
     // final data = ref.watch(dataProvider);
@@ -50,7 +62,7 @@ class PsychoTestResultView extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  const Text("その他の項目について", style: TextStyle(fontSize: 20),),
+                  Text(AppLocalizations.of(context)!.otherOptions, style: const TextStyle(fontSize: 20),),
                   ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -67,14 +79,14 @@ class PsychoTestResultView extends ConsumerWidget {
             ),),
             ElevatedButton(onPressed: question.isFavorite ? null : (){
               ref.read(dataProvider.notifier).updateFavorite(question);
-            }, child: const Text('お気に入りに追加')),
-            ElevatedButton(onPressed: () async {
+            }, child: Text(AppLocalizations.of(context)!.addFavorite)),
+            ElevatedButton(onPressed: (){
+              // setState(() {
+              //   ref.read(data2Provider);
+              // });
               // ref.read(dataProvider.notifier).updateAnswered(question);
-              ref.invalidate(data2Provider);
-              await Future.delayed(Duration(seconds: 1), () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-              });
-            }, child: const Text('閉じる')),
+              Navigator.popUntil(context, ModalRoute.withName('/'));
+            }, child: Text(AppLocalizations.of(context)!.close)),
             // List.generate(question.content.options.length - 1, (index) => PsychoTestResultOthersContainer())
           ]
         ),

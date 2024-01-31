@@ -4,7 +4,7 @@ import 'package:psycho/model/question.dart';
 import 'package:psycho/view/psycho_test_page_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:psycho/provider/data_provider2.dart';
+import 'package:psycho/provider/data_provider.dart';
 
 class DescriptionView extends ConsumerStatefulWidget {
   const DescriptionView({required this.question, Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _DescriptionViewState extends ConsumerState<DescriptionView> {
           IconButton(
             onPressed: () {
               setState(() {
-                ref.read(data2Provider.notifier).updateFavorite(question);
+                ref.read(dataProvider.notifier).updateFavorite(question);
               });
             },
             icon: Icon(

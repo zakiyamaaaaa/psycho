@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/view/psycho_test_result_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:psycho/provider/data_provider2.dart';
+import 'package:psycho/provider/data_provider.dart';
 import 'package:psycho/view/description_view.dart';
 import 'package:flutter/widgets.dart';
 
@@ -29,12 +29,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   Future<void> _getQuestions() async {
     setState(() {
-      questionsList = ref.read(data2Provider.future);
+      questionsList = ref.read(dataProvider.future);
     });
   }
 
   Future<void> _loadJSON() async {
-    await ref.read(data2Provider.notifier).save();
+    await ref.read(dataProvider.notifier).save();
   }
 
   @override
@@ -45,9 +45,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
       child: Text(category == Category.none ? AppLocalizations.of(context)!.all : category.displayText(context)),
     );
   }).toList();
-    final dataProvider = ref.watch(data2Provider);
+    final questions = ref.watch(dataProvider);
     // final current = ref.watch(data2Provider.notifier).getCurrentQuestion();
-    final current2 = ref.watch(currentQuestionProvider);
+    final current = ref.watch(currentQuestionProvider);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -87,10 +87,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                 ),
                 // height: 80,
-                child: current2.when(data:
+                child: current.when(data:
                 (data) {
                   // 診断済みの質問を取得、まだ無い場合はnull
-                  if (data == null || current2.isRefreshing) {
+                  if (data == null || current.isRefreshing) {
                     return Container();
                   }
                   return ElevatedButton(
@@ -173,7 +173,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             onChanged: (value) {
                               setState(() {
                                 if(value != null) dropdownValue = value;
-                                ref.invalidate(data2Provider);
+                                ref.invalidate(dataProvider);
                               });
                             },
                           ),
@@ -190,7 +190,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             onChanged: (value){
                             setState(() {
                               _isToggle = value;
-                              ref.invalidate(data2Provider);
+                              ref.invalidate(dataProvider);
                             });
 
                           }),
@@ -207,8 +207,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         ),
                   color: Colors.white.withOpacity(0.6),
                 ),
-                child: dataProvider.when(data: (data) {
-                  if (dataProvider.isRefreshing) {
+                child: questions.when(data: (data) {
+                  if (questions.isRefreshing) {
                     // return const Center(child: CircularProgressIndicator(),);
                     return Container();
                   }
@@ -339,7 +339,7 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                     right: 10,
                     child: IconButton(
                       onPressed: () async {
-                        await ref.read(data2Provider.notifier).updateFavorite(question);
+                        await ref.read(dataProvider.notifier).updateFavorite(question);
                         ref.invalidate(answeredQuestionsProvider);
                         ref.invalidate(favoriteQuestionsProvider);
                         // ref.invalidate(data2Provider);
