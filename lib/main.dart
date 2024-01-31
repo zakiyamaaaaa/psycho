@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/view/home_view.dart';
-import 'package:psycho/view/home_view2.dart';
 import 'package:psycho/view/history_view.dart';
-import 'package:psycho/view/history_view2.dart';
 import 'package:psycho/provider/data_provider2.dart';
 import 'package:psycho/view/setting_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,7 +35,7 @@ class MainApp extends ConsumerWidget {
     );
   }
 }
-final pages = [HomeView2(), HistoryView2(), SettingView()];
+final pages = [HomeView(), HistoryView(), SettingView()];
 class TabBarViews extends ConsumerWidget {
   const TabBarViews({super.key});
 

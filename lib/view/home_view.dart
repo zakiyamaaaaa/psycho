@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/model/question.dart';
 import 'package:psycho/view/psycho_test_result_view.dart';
-
-import 'package:psycho/provider/data_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:psycho/provider/data_provider2.dart';
 import 'package:psycho/view/description_view.dart';
+import 'package:flutter/widgets.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -17,18 +18,36 @@ class HomeView extends ConsumerStatefulWidget {
 class _HomeViewState extends ConsumerState<HomeView> {
   bool _isToggle = false;
   Category dropdownValue = Category.none;
+  Future<List<Question>>? questionsList;
 
-  final List<DropdownMenuItem<Category>> _dropDownMenuItems = Category.values.map((category) {
-    return DropdownMenuItem(
-      value: category,
-      child: Text(category == Category.none ? "すべて" : category.name),
-    );
-  }).toList();
-  
+  @override
+  void initState() {
+    super.initState();
+    debugPrint('initState in home view2');
+    _loadJSON().then((_) => Future.delayed(const Duration(seconds: 1), () => _getQuestions()));
+  }
+
+  Future<void> _getQuestions() async {
+    setState(() {
+      questionsList = ref.read(data2Provider.future);
+    });
+  }
+
+  Future<void> _loadJSON() async {
+    await ref.read(data2Provider.notifier).save();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(dataProvider);
-    final current = ref.read(dataProvider.notifier).getCurrentQuestion();
+    final List<DropdownMenuItem<Category>> _dropDownMenuItems = Category.values.map((category) {
+    return DropdownMenuItem(
+      value: category,
+      child: Text(category == Category.none ? AppLocalizations.of(context)!.all : category.displayText(context)),
+    );
+  }).toList();
+    final dataProvider = ref.watch(data2Provider);
+    // final current = ref.watch(data2Provider.notifier).getCurrentQuestion();
+    final current2 = ref.watch(currentQuestionProvider);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -47,73 +66,99 @@ class _HomeViewState extends ConsumerState<HomeView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                width: double.infinity,
+                // グラデーションカラー
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.9),
+                      spreadRadius: 0,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Color(0xFFFF9900),
+                      Color(0xFFFFCC7F),
+                    ],
+                  ),
+                ),
                 // height: 80,
-                child: ElevatedButton(
+                child: current2.when(data:
+                (data) {
+                  // 診断済みの質問を取得、まだ無い場合はnull
+                  if (data == null || current2.isRefreshing) {
+                    return Container();
+                  }
+                  return ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                    
                   ),
-                  backgroundColor: Colors.orange
+                  // グラデーションカラー
+                  // backgroundColor: Colors.orange
                 ),
                 onPressed: () {
-
-                  // current == nullなら何もしない
-                  if (current == null) {
-                    return;
-                  }
+                  // if (data == null) return;
                   Navigator.push(
                     context,
-
                     MaterialPageRoute(
                       fullscreenDialog: true,
-                      builder: (context) => PsychoTestResultView(question: current)
-                    ),
+                      builder: (context) => PsychoTestResultView(question: data)),
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                    width: double.infinity,
+                  padding: const EdgeInsets.all(10),
                 child: Column(
                   // 左寄せ
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 白いテキスト
-                    Text(current != null ? 'あなたの最近のテスト結果': "早速診断にトライ！", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    Text(current != null ? current.content.options.firstWhere((element) => element.isSelected == true).answer1 : "", style: TextStyle(color: Colors.white, ),),
+                    Text(AppLocalizations.of(context)!.yourCurrentAnswer, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),),
+                    Text(data.title, style: TextStyle(color: Colors.black54),),
+                    Text(data.content.options.firstWhere((element) => element.isSelected == true).answer1, style: TextStyle(color: Colors.black54, ),),
                   ],
                 ),
-                ),
-                ),
+                )
+                  );
+                }
+                ,
+                error: (e,s)=> Center(child: Text(AppLocalizations.of(context)!.errorOccurred),),
+                loading: (){
+                  return Center(child: Text(AppLocalizations.of(context)!.loadingText),);
+                })
               ),
               Container(
                 width: double.infinity,
                 height: 80,
                 margin: const EdgeInsets.only(top: 20),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
+                  border: Border.all(color: Colors.orange, width: 2),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
-                  color: Colors.orange,
+                  color: Colors.orange.shade200,
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                           const Spacer(),
-                          
-                          Text('カテゴリー'),
-                          
+                          Text(AppLocalizations.of(context)!.category, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                           Container(
                             height: 40,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: Colors.orange),
                               color: Colors.white.withAlpha(100),
                             ),
                           child: DropdownButton(
@@ -127,18 +172,28 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             items: _dropDownMenuItems,
                             onChanged: (value) {
                               setState(() {
-                                ref.read(dataProvider.notifier).getQuestions();
                                 if(value != null) dropdownValue = value;
+                                ref.invalidate(data2Provider);
                               });
                             },
                           ),
                           ),
                           const Spacer(),
-                          Text("診断済みを除外"),
-                          CupertinoSwitch(value: _isToggle, onChanged: (value) => setState(() {
-                            _isToggle = value;
-                            ref.read(dataProvider.notifier).getQuestions();
-                          })),
+                          Text(AppLocalizations.of(context)!.exception,),
+                          // CupertinoSwitch(value: _isToggle, onChanged: (value) => setState(() {
+                          //   _isToggle = value;
+                          //   // ref.refresh(data2Provider.future);
+                          // })),
+                          CupertinoSwitch(
+                            activeColor: Colors.orange,
+                            value: _isToggle,
+                            onChanged: (value){
+                            setState(() {
+                              _isToggle = value;
+                              ref.invalidate(data2Provider);
+                            });
+
+                          }),
                   ],
                 ),
               ),
@@ -152,17 +207,24 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         ),
                   color: Colors.white.withOpacity(0.6),
                 ),
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return PsychoTestContainer(question: data[index], isDoneFlag: _isToggle, category: dropdownValue,);
-                      },
-                    ),
-                  ],
+                child: dataProvider.when(data: (data) {
+                  if (dataProvider.isRefreshing) {
+                    // return const Center(child: CircularProgressIndicator(),);
+                    return Container();
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return PsychoTestContainer2(question: data[index], isDoneFlag: _isToggle, category: dropdownValue,);
+                    },
+                  );
+                },
+                error: (e, s) => Center(child: Text(AppLocalizations.of(context)!.errorOccurred),
+                ),
+                loading:
+                () => const Center(child: CircularProgressIndicator(),),
                 ),
               ),
             ],
@@ -174,26 +236,26 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 }
 
-class PsychoTestContainer extends ConsumerWidget {
-  const PsychoTestContainer({required this.question, this.isDoneFlag = false, this.category = Category.none, Key? key}) : super(key: key);
+class PsychoTestContainer2 extends ConsumerStatefulWidget {
+  const PsychoTestContainer2({required this.question, this.isDoneFlag = false, this.category = Category.none, Key? key}) : super(key: key);
   final Question question;
   final bool isDoneFlag;
   final Category category;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // switch (category) {
-    //   case Category.none:
-    //     switch (isDoneFlag) {
-    //       case true:
-    //         switch (question.isAnswered) {
-    //           case true:
-    //             return Container();
-    //           case false:
-    //             return 
-    //         }
-    //     }
-    // }
+  _PsychoTestContainerState2 createState() => _PsychoTestContainerState2(question: question, isDoneFlag: isDoneFlag, category: category);
+}
+
+class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
+  _PsychoTestContainerState2({required this.question, this.isDoneFlag = false, this.category = Category.none, Key? key});
+  final Question question;
+  final bool isDoneFlag;
+  final Category category;
+
+  @override
+  Widget build(BuildContext context) {
+    // imageCache.clear();
+    imageCache.clearLiveImages();
     return ((isDoneFlag && question.isAnswered) || (category != Category.none && category != question.category)) ? Container() : 
     Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -201,16 +263,19 @@ class PsychoTestContainer extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.grey[1],
+                color: Colors.grey[20],
               ),
-              
               child: Stack(
                 children: [
-                  ElevatedButton( onPressed: () {
-                      Navigator.push(
+                  ElevatedButton( onPressed: () async {
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => DescriptionView(question: question)),
                       );
+                      setState(() {
+                        ref.invalidate(currentQuestionProvider);
+                        ref.invalidate(answeredQuestionsProvider);
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(0),
@@ -218,7 +283,7 @@ class PsychoTestContainer extends ConsumerWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      backgroundColor: Colors.grey[100],
+                      backgroundColor: Colors.grey[10],
                     ),
                   child:
                   Column(
@@ -226,9 +291,9 @@ class PsychoTestContainer extends ConsumerWidget {
                         Container(
                       height: 150,
                       width: double.infinity,
+                      // child: Image(image: image),
                       child: Image.asset(
                         question.imagePath,
-                        colorBlendMode: BlendMode.overlay,
                         fit: BoxFit.fitWidth,),
                       ),
                     Container(
@@ -243,7 +308,7 @@ class PsychoTestContainer extends ConsumerWidget {
                               Text(question.title, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                               Container(
                                 margin: const EdgeInsets.only(bottom: 5),
-                                child: Text("#${question.category.name}", style: TextStyle(color: Colors.black, ),),
+                                child: Text("#${question.category.displayText(context)}", style: TextStyle(color: Colors.black, ),),
                               ),
                             ],
                           ),
@@ -273,10 +338,16 @@ class PsychoTestContainer extends ConsumerWidget {
                     top: 10,
                     right: 10,
                     child: IconButton(
-                      onPressed: (){
-                        ref.read(dataProvider.notifier).updateFavorite(question);
+                      onPressed: () async {
+                        await ref.read(data2Provider.notifier).updateFavorite(question);
+                        ref.invalidate(answeredQuestionsProvider);
+                        ref.invalidate(favoriteQuestionsProvider);
+                        // ref.invalidate(data2Provider);
+                        setState(() {
+                        });
                       },
                       icon: Icon(
+                        size: 30,
                         question.isFavorite ? Icons.favorite : Icons.favorite_border,
                         color: Colors.pink[200],
                       ),
@@ -293,8 +364,8 @@ class PsychoTestContainer extends ConsumerWidget {
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Text(
-                        '診断済み',
+                      child: Text(
+                        AppLocalizations.of(context)!.done,
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
