@@ -6,8 +6,11 @@ import 'package:psycho/view/history_view.dart';
 import 'package:psycho/provider/data_provider.dart';
 import 'package:psycho/view/setting_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:psycho/model/shared_preferences_manager.dart';
+import 'package:psycho/model/user_repository.dart';
 import 'package:psycho/provider/tab_provider.dart' show tabProvider, TabType;
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: MainApp()));
 }
 
@@ -16,12 +19,26 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    SharedPreferencesManager.isFirstLaunch().then((value) {
+    switch (value) {
+      case true:
+        break;
+      case false:
+      // Userデータの作成
+      final userRepo = UserRepository(ref);
+      () async {
+        await userRepo.create();
+      }();
+        SharedPreferencesManager.writeFirstLaunch();
+        break;
+    }
+  });
     return MaterialApp(
       theme: ThemeData(
-        dialogTheme: DialogTheme(
+        dialogTheme: const DialogTheme(
           backgroundColor: Colors.white,
-          titleTextStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-          contentTextStyle: const TextStyle(color: Colors.black, fontSize: 16),
+          titleTextStyle: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          contentTextStyle: TextStyle(color: Colors.black, fontSize: 16),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
         colorScheme: ColorScheme.fromSwatch(
