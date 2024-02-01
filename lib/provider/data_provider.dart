@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:psycho/mock/mock_data.dart';
-import 'package:psycho/model/question.dart';
+import 'package:psycho/infrastructures/data_source.dart';
+import 'package:psycho/domains/model/question.dart';
 import 'package:psycho/provider/isar_provider.dart';
 
 part 'data_provider.g.dart';
@@ -24,10 +24,10 @@ class Data extends _$Data {
     final isar = await ref.read(isarProvider.future);
     final questions = await isar.questions.where().findAll();
     debugPrint("questions length: ${questions.length}");
-    final lastId = mockData.last['id'] as int;
+    final lastId = dataSource.last['id'] as int;
     debugPrint("lastId: $lastId");
     if (questions.isEmpty) {
-      final questionData = mockData.map((e) => Question()
+      final questionData = dataSource.map((e) => Question()
       ..id = e['id'] as int
       ..title = e['title'] as String
       ..description = e['description'] as String
@@ -49,7 +49,7 @@ class Data extends _$Data {
       });
     } else if ( lastId > questions.last.id) {
       final lastId = questions.last.id;
-      final addQuestionData = mockData.where((element) => element['id'] > lastId).toList();
+      final addQuestionData = dataSource.where((element) => element['id'] > lastId).toList();
       debugPrint("addQuestionData length: ${addQuestionData.length}");
       final additionalQuestions = addQuestionData.map((e) => Question()
         ..id = e['id'] as int
@@ -129,23 +129,12 @@ class Data extends _$Data {
     });
   }
 
-  Future<void> refresh() async {
-    final isar = await ref.read(isarProvider.future);
-    state = AsyncValue.data(await isar.questions.where().findAll());
-  }
-
   Future<int> getAnsweredCount() async {
     final isar = await ref.read(isarProvider.future);
     final answeredQuestions = await isar.questions.where().filter().isAnsweredEqualTo(true).findAll();
     // stateの中からisAnsweredがtrueのものの数を返す
     return answeredQuestions.length;
   }
-
-  // refreshを使えばいい？？
-  // AsyncValue<List<Question>> getQuestions() {
-    // state = AsyncValue.data(state); 
-  //   return state;
-  // }
 
   Future<List<Question>> getAnsweredQuestions() async {
     final isar = await ref.read(isarProvider.future);

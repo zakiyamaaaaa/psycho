@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:psycho/model/user.dart';
+import 'package:psycho/domains/model/user.dart';
 import 'package:psycho/provider/isar_provider.dart';
 
 // staticクラスを作成

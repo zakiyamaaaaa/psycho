@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:psycho/model/question.dart';
-import 'package:psycho/view/psycho_test_result_view.dart';
+import 'package:psycho/domains/model/question.dart';
+import 'package:psycho/presentation/home/psycho_test_result_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:psycho/provider/data_provider.dart';
-import 'package:psycho/view/description_view.dart';
+import 'package:psycho/presentation/home/description_view.dart';
 import 'package:flutter/widgets.dart';
 
 class HomeView extends ConsumerStatefulWidget {

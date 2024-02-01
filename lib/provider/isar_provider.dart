@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:psycho/model/user.dart';
-import 'package:psycho/model/question.dart';
+import 'package:psycho/domains/model/user.dart';
+import 'package:psycho/domains/model/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 

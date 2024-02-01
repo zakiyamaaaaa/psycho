@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:psycho/view/setting/privacy_policy_view.dart';
-import 'package:psycho/view/setting/term_view.dart';
-import 'package:psycho/view/setting/contact_form_view.dart';
+import 'package:psycho/presentation/setting/privacy_policy_view.dart';
+import 'package:psycho/presentation/setting/term_view.dart';
+import 'package:psycho/presentation/setting/contact_form_view.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:psycho/provider/data_provider.dart';
 

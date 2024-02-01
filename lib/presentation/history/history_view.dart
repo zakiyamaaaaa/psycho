@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:psycho/provider/data_provider.dart';
 import 'package:psycho/provider/segment_index_provider.dart';
-import 'package:psycho/view/home_view.dart';
+import 'package:psycho/presentation/home/home_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lottie/lottie.dart';
 

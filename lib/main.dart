@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:psycho/view/home_view.dart';
-import 'package:psycho/view/history_view.dart';
+import 'package:psycho/presentation/home/home_view.dart';
+import 'package:psycho/presentation/history/history_view.dart';
 import 'package:psycho/provider/data_provider.dart';
-import 'package:psycho/view/setting_view.dart';
+import 'package:psycho/presentation/setting/setting_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:psycho/model/shared_preferences_manager.dart';
-import 'package:psycho/model/user_repository.dart';
+import 'package:psycho/domains/model/shared_preferences_manager.dart';
+import 'package:psycho/domains/model/user_repository.dart';
 import 'package:psycho/provider/tab_provider.dart' show tabProvider, TabType;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
