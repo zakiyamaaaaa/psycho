@@ -6,9 +6,10 @@ import 'package:psycho/presentation/history/history_view.dart';
 import 'package:psycho/provider/data_provider.dart';
 import 'package:psycho/presentation/setting/setting_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:psycho/domains/model/shared_preferences_manager.dart';
-import 'package:psycho/domains/model/user_repository.dart';
+import 'package:psycho/main_viewmodel.dart';
 import 'package:psycho/provider/tab_provider.dart' show tabProvider, TabType;
+
+final _pages = [const HomeView(), const HistoryView(), SettingView()];
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: MainApp()));
@@ -19,20 +20,7 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SharedPreferencesManager.isFirstLaunch().then((value) {
-    switch (value) {
-      case true:
-        break;
-      case false:
-      // Userデータの作成
-      final userRepo = UserRepository(ref);
-      () async {
-        await userRepo.create();
-      }();
-        SharedPreferencesManager.writeFirstLaunch();
-        break;
-    }
-  });
+    MainViewModel(ref).checkFirstLaunch();
     return MaterialApp(
       theme: ThemeData(
         dialogTheme: const DialogTheme(
@@ -48,13 +36,12 @@ class MainApp extends ConsumerWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: DefaultTabController(length: pages.length, child: TabBarViews(), initialIndex: 0)
+      home: DefaultTabController(length: _pages.length, initialIndex: 0, child: _TabBarViews())
     );
   }
 }
-final pages = [HomeView(), HistoryView(), SettingView()];
-class TabBarViews extends ConsumerWidget {
-  const TabBarViews({super.key});
+
+class _TabBarViews extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,7 +49,7 @@ class TabBarViews extends ConsumerWidget {
     return Scaffold(
       body: IndexedStack(
         index: tab.index,
-        children: pages,
+        children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.orange,

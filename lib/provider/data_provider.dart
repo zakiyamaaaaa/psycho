@@ -10,11 +10,16 @@ part 'data_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class Data extends _$Data {
+  @override
   Future<List<Question>> build() async {
     final isar = await ref.read(isarProvider.future);
-    // await Future.delayed(Duration(seconds: 1))
-    await Future.delayed(Duration(milliseconds: 50));
-    final questions = await isar.questions.where().findAll();
+    var questions = await isar.questions.where().findAll();
+    while(questions.isEmpty) {
+      state = const AsyncValue.loading();
+      // questionsが取得できるまで待機
+      await Future.delayed(const Duration(milliseconds: 500));
+      questions = await isar.questions.where().findAll();
+    }
     state = AsyncValue.data(questions);
     return Future.value(questions);
   }
@@ -79,19 +84,6 @@ class Data extends _$Data {
   Future<Question?> getCurrentQuestion() async {
     final isar = await ref.read(isarProvider.future);
     final currentAnsweredQuestion = await isar.questions.where().filter().isAnsweredEqualTo(true).findFirst();
-    // answeredDateが一番新しいものを取得
-    // final answeredQuestions = state.where((element) => element.isAnswered == true).toList();
-    // final answeredQuestions = await build();
-    // if (answeredQuestions.isEmpty) {
-    //   return null;
-    // }
-    // answeredQuestions.sort((a, b) {
-    //   if (a.answeredDate == null || b.answeredDate == null) {
-    //     return 0;
-    //   }
-    //   b.answeredDate!.compareTo(a.answeredDate!);
-    // }
-    // );
     return currentAnsweredQuestion;
   }
 
@@ -105,8 +97,6 @@ class Data extends _$Data {
         await isar.questions.put(data[index]);
       });
     }, error: (e,t){}, loading: (){});
-    // question.isFavorite = !question.isFavorite;
-    // state = ...state;
   }
 
   void updateAnswered(Question question) async {

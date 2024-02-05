@@ -6,25 +6,26 @@ import 'package:psycho/presentation/home/psycho_test_result_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:psycho/provider/data_provider.dart';
 import 'package:psycho/presentation/home/description_view.dart';
-import 'package:flutter/widgets.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  createState() => _HomeViewState();
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
+  /// 診断済みを表示するかどうかのフラグ
   bool _isToggle = false;
-  Category dropdownValue = Category.none;
+  /// ドロップダウンの初期値
+  Category _dropdownValue = Category.none;
   Future<List<Question>>? questionsList;
 
   @override
   void initState() {
     super.initState();
-    debugPrint('initState in home view2');
-    _loadJSON().then((_) => Future.delayed(const Duration(seconds: 1), () => _getQuestions()));
+    // _loadJSON().then((_) => Future.delayed(const Duration(seconds: 1), () => _getQuestions()));
+    _getQuestions();
   }
 
   Future<void> _getQuestions() async {
@@ -39,12 +40,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final List<DropdownMenuItem<Category>> _dropDownMenuItems = Category.values.map((category) {
+    final List<DropdownMenuItem<Category>> dropDownMenuItems = Category.values.map((category) {
     return DropdownMenuItem(
       value: category,
       child: Text(category == Category.none ? AppLocalizations.of(context)!.all : category.displayText(context)),
     );
   }).toList();
+
     final questions = ref.watch(dataProvider);
     // final current = ref.watch(data2Provider.notifier).getCurrentQuestion();
     final current = ref.watch(currentQuestionProvider);
@@ -165,14 +167,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             style: const TextStyle(fontSize: 14, color: Colors.black),
                             focusColor: Colors.grey,
                             dropdownColor: Colors.white,
-                            value: dropdownValue,
+                            value: _dropdownValue,
                             iconSize: 20,
                             underline: Container(),
                             borderRadius: BorderRadius.circular(10),
-                            items: _dropDownMenuItems,
+                            items: dropDownMenuItems,
                             onChanged: (value) {
                               setState(() {
-                                if(value != null) dropdownValue = value;
+                                if(value != null) _dropdownValue = value;
                                 ref.invalidate(dataProvider);
                               });
                             },
@@ -217,7 +219,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return PsychoTestContainer2(question: data[index], isDoneFlag: _isToggle, category: dropdownValue,);
+                      return PsychoTestContainer2(question: data[index], isDoneFlag: _isToggle, category: _dropdownValue,);
                     },
                   );
                 },
