@@ -1,0 +1,34 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "psycho",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=flavor/dev.json"
+            ]
+        },
+        {
+            "name": "psycho (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--dart-define-from-file=flavor/stg.json"
+            ]
+        },
+        {
+            "name": "psycho (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--dart-define-from-file=flavor/prod.json"
+            ]
+        }
+    ]
+}

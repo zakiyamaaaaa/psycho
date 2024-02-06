@@ -1,0 +1,4 @@
+flutter_icons:
+  image_path: "images/icons/icon-staging.png"
+  android: true
+  ios: true

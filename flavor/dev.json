@@ -1,0 +1,5 @@
+{
+    "flavor": "development",
+    "appIdSuffix": ".dev",
+    "flavorPrefix": "dev"
+  }
