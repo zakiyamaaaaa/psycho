@@ -4,6 +4,17 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+configurations.implementation {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -21,28 +32,76 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
+// def dartEnvironmentVariables = project
+//             .property('dart-defines')
+//             .split(',')
+//             .collectEntries {
+//                 new String(it.decodeBase64(), 'UTF-8')
+//                     .split(',')
+//                     .collectEntries {
+//                         def pair = it.split('=')
+//                         [(pair.first()): pair.last()]
+//                     }
+//             }
 
 android {
-    namespace "com.example.psycho"
+    namespace "com.zakiyamaaaaa.mindplay"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+    // sourceSets {
+    //     main {
+    //         java.srcDirs += 'src/main/kotlin'
+    //         res.srcDirs = ['src/main/res', "src/$flavor/res"]
+    //     }
+    // }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    // task copyIcons(type: Copy) {
+    // from "src/${dartEnvironmentVariables.FLAVOR}/res"
+    // into 'src/main/res'
+    // }
+
+    // tasks.whenTaskAdded {
+    //     it.dependsOn copyIcons
+    // }
+
+    // kotlinOptions {
+    //     jvmTarget = '1.8'
+    // }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
+        // flavorDimensions "env"
+
+        // productFlavors {
+        //     production {
+        //         dimension "env"
+        //         resValue "string", "app_name", "production"
+        //     }
+        //     staging {
+        //         dimension "env"
+        //         resValue "string", "app_name", "staging"
+        //         applicationIdSuffix ".stg"
+        //     }
+        //     development {
+        //         dimension "env"
+        //         resValue "string", "app_name", "development"
+        //         applicationIdSuffix ".dev"
+        //     }
+        // }
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.psycho"
+        applicationId "com.zakiyamaaaaa.mindplay"
+        applicationIdSuffix appIdSuffix
+        manifestPlaceholders["label"] = "MindPlay $flavorPrefix"
+        // manifestPlaceholders["icon"] = "@mipmap/ic_launcher_$flavor"
+        // manifestPlaceholders["icon"] = "$flavor/mipmap/ic_launcher"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
@@ -51,11 +110,21 @@ android {
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }

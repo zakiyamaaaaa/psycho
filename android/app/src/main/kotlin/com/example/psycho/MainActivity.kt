@@ -1,4 +1,4 @@
-package com.example.psycho
+package com.zakiyamaaaaa.mindplay
 
 import io.flutter.embedding.android.FlutterActivity
 

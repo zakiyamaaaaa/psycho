@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +11,11 @@ import 'package:psycho/presentation/setting/term_view.dart';
 import 'package:psycho/presentation/setting/contact_form_view.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:psycho/provider/data_provider.dart';
+import 'package:in_app_review/in_app_review.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:psycho/const/const.dart';
 
 enum SettingViewType {
     contact,
@@ -87,7 +92,6 @@ class SettingView extends ConsumerWidget {
             leading: customAvatar(SettingViewType.shareApp),
             title: Text(AppLocalizations.of(context)!.shareApp),
             onTap: () {
-              // Share.share('hogehoge');
               showCupertinoModalPopup(
                 context: context,
                 builder: (BuildContext context) =>
@@ -96,7 +100,6 @@ class SettingView extends ConsumerWidget {
                   CupertinoActionSheetAction(
                     onPressed: () async {
                       Share.share('URL: hogehoge');
-                      // Share.share('hogehoge');
                     },
                     child: const Text('テキスト'),
                   ),
@@ -124,16 +127,15 @@ class SettingView extends ConsumerWidget {
               );
             },
           ),
-          Divider(height: 0,),
+          const Divider(height: 0,),
           ListTile(
             leading: customAvatar(SettingViewType.evaluateApp),
             title: Text(AppLocalizations.of(context)!.evaluateApp),
             onTap: () {
-              // TODO: not yet implemented
-              Navigator.pushNamed(context, '/account');
+              StoreReviewHelper.launchStoreReview(context);
             },
           ),
-          Divider(height: 0,),
+          const Divider(height: 0,),
           ListTile(
             leading: customAvatar(SettingViewType.resetData),
             title: Text(AppLocalizations.of(context)!.resetDataTitle),
@@ -186,5 +188,28 @@ class SettingView extends ConsumerWidget {
       ),
       ),
     );
+  }
+}
+
+class StoreReviewHelper {
+  static final InAppReview _inAppReview = InAppReview.instance;
+  
+  static void launchStoreReview(BuildContext context) async {
+    try {
+      if (await _inAppReview.isAvailable()) {
+        _inAppReview.requestReview();
+      } else {
+        // ストアのURLにフォールバック
+        final url = Platform.isIOS ? Const.urlAppStore : Const.playStoreUrl;
+
+        if (!await launchUrl(Uri.parse(url))) {
+          throw 'Cannot launch the store URL';
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('ストアページを開けませんでした')),
+      );
+    }
   }
 }
