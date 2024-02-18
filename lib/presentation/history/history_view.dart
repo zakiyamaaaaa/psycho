@@ -12,15 +12,13 @@ class HistoryView extends ConsumerStatefulWidget {
   const HistoryView({super.key});
 
   @override
-  _HistoryViewState2 createState() => _HistoryViewState2();
+  _HistoryViewState createState() => _HistoryViewState();
 }
 
-class _HistoryViewState2 extends ConsumerState<HistoryView> {
+class _HistoryViewState extends ConsumerState<HistoryView> {
 
-  
   @override
   void initState() {
-    debugPrint('initState in history view2');
     super.initState();
   }
 
@@ -67,7 +65,7 @@ class _HistoryViewState2 extends ConsumerState<HistoryView> {
             Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
-                child: HistoryExpansionTile2(selectedIndex: selectedIndex),
+                child: HistoryExpansionTile(selectedIndex: selectedIndex),
               ),
             ),
           ]
@@ -79,8 +77,8 @@ class _HistoryViewState2 extends ConsumerState<HistoryView> {
   }
 }
 
-class HistoryExpansionTile2 extends ConsumerWidget {
-  const HistoryExpansionTile2({required this.selectedIndex, Key? key}) : super(key: key);
+class HistoryExpansionTile extends ConsumerWidget {
+  const HistoryExpansionTile({required this.selectedIndex, Key? key}) : super(key: key);
 
   String dateFormat(DateTime? date) {
     if (date == null) {
@@ -163,13 +161,13 @@ class HistoryExpansionTile2 extends ConsumerWidget {
           );
         }
         return ListView.builder(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           shrinkWrap: true,
           itemCount: favorites.length,
           itemBuilder: (BuildContext context, int index) {
             final question = favorites[index];
             debugPrint('favorite question: ${question.title}');
-            return PsychoTestContainer2(question: question);
+            return PsychoTestContainer(question: question);
           },
         );
       }, error: (e,s){

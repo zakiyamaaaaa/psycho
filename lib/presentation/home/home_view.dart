@@ -215,11 +215,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     return Container();
                   }
                   return ListView.builder(
+                    key: const PageStorageKey('home'),
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return PsychoTestContainer2(question: data[index], isDoneFlag: _isToggle, category: _dropdownValue,);
+                      return PsychoTestContainer(question: data[index], isDoneFlag: _isToggle, category: _dropdownValue,);
                     },
                   );
                 },
@@ -238,24 +239,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 }
 
-class PsychoTestContainer2 extends ConsumerStatefulWidget {
-  const PsychoTestContainer2({required this.question, this.isDoneFlag = false, this.category = Category.none, Key? key}) : super(key: key);
+class PsychoTestContainer extends ConsumerWidget {
+  const PsychoTestContainer({required this.question, this.isDoneFlag = false, this.category = Category.none, Key? key}) : super(key: key);
   final Question question;
   final bool isDoneFlag;
   final Category category;
 
   @override
-  _PsychoTestContainerState2 createState() => _PsychoTestContainerState2(question: question, isDoneFlag: isDoneFlag, category: category);
-}
-
-class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
-  _PsychoTestContainerState2({required this.question, this.isDoneFlag = false, this.category = Category.none, Key? key});
-  final Question question;
-  final bool isDoneFlag;
-  final Category category;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // imageCache.clear();
     imageCache.clearLiveImages();
     return ((isDoneFlag && question.isAnswered) || (category != Category.none && category != question.category)) ? Container() : 
@@ -274,10 +265,8 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                         context,
                         MaterialPageRoute(builder: (context) => DescriptionView(question: question)),
                       );
-                      setState(() {
                         ref.invalidate(currentQuestionProvider);
                         ref.invalidate(answeredQuestionsProvider);
-                      });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(0),
@@ -340,13 +329,11 @@ class _PsychoTestContainerState2 extends ConsumerState<PsychoTestContainer2> {
                     top: 10,
                     right: 10,
                     child: IconButton(
-                      onPressed: () async {
-                        await ref.read(dataProvider.notifier).updateFavorite(question);
-                        ref.invalidate(answeredQuestionsProvider);
-                        ref.invalidate(favoriteQuestionsProvider);
-                        // ref.invalidate(data2Provider);
-                        setState(() {
-                        });
+                      onPressed: () {
+                          ref.read(dataProvider.notifier).updateFavorite(question);
+                          ref.invalidate(answeredQuestionsProvider);
+                          // ref.invalidate(favoriteQuestionsProvider);
+                          // ref.invalidate(dataProvider);
                       },
                       icon: Icon(
                         size: 30,

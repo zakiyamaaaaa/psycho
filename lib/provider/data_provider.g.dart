@@ -37,7 +37,7 @@ final answeredQuestionsProvider =
 );
 
 typedef AnsweredQuestionsRef = AutoDisposeFutureProviderRef<List<Question>>;
-String _$favoriteQuestionsHash() => r'992a19a9d1550bc1025d4fc87bf22dd2bcea945b';
+String _$favoriteQuestionsHash() => r'7c333714559cfeda715a8800cce592e0a2d4f002';
 
 /// See also [favoriteQuestions].
 @ProviderFor(favoriteQuestions)
@@ -53,7 +53,7 @@ final favoriteQuestionsProvider =
 );
 
 typedef FavoriteQuestionsRef = AutoDisposeFutureProviderRef<List<Question>>;
-String _$dataHash() => r'1fefd7ec7502bf63de15829fc79c78142313cc7f';
+String _$dataHash() => r'7cba13824ffcf3692c867ab78cef8360068fa6b1';
 
 /// See also [Data].
 @ProviderFor(Data)

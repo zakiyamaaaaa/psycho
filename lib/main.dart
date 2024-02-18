@@ -61,7 +61,8 @@ class _TabBarViews extends ConsumerWidget {
           currentIndex: tab.index,
           onTap: (index) {
             if (index == TabType.home.index) {
-              ref.invalidate(dataProvider);
+              // ref.invalidate(dataProvider);
+              // _pages.first;
             } else if (index == TabType.history.index) {
               ref.invalidate(answeredQuestionsProvider);
               ref.invalidate(favoriteQuestionsProvider);

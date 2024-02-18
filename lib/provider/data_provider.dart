@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/infrastructures/data_source.dart';
 import 'package:psycho/domains/model/question.dart';
 import 'package:psycho/provider/isar_provider.dart';
@@ -89,12 +88,12 @@ class Data extends _$Data {
 
   FutureOr<void> updateFavorite(Question question) async {
     final isar = await ref.read(isarProvider.future);
-    
     state.when(data: (data){
       final index = data.indexWhere((element) => element.id == question.id);
       data[index].isFavorite = !data[index].isFavorite;
       isar.writeTxn(() async {
         await isar.questions.put(data[index]);
+        state = AsyncValue.data(await isar.questions.where().findAll());
       });
     }, error: (e,t){}, loading: (){});
   }
@@ -154,14 +153,14 @@ Future<Question?> currentQuestion(CurrentQuestionRef ref) async {
 
 @riverpod
 Future<List<Question>> answeredQuestions(AnsweredQuestionsRef ref) async {
-  final isar = await ref.read(isarProvider.future);
-  final answeredQuestions = await isar.questions.where().filter().isAnsweredEqualTo(true).findAll();
-  return answeredQuestions;
+  final questions = ref.watch(dataProvider).value;
+  final answeredQuestions = questions?.where((element) => element.isAnswered).toList();
+  return answeredQuestions ?? [];
 }
 
 @riverpod
 Future<List<Question>> favoriteQuestions(FavoriteQuestionsRef ref) async {
-  final isar = await ref.read(isarProvider.future);
-  final favoriteQuestions = await isar.questions.where().filter().isFavoriteEqualTo(true).findAll();
-  return favoriteQuestions;
+  final questions = ref.watch(dataProvider).value;
+  final favorites = questions?.where((element) => element.isFavorite).toList();
+  return favorites ?? [];
 }
