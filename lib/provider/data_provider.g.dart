@@ -21,7 +21,7 @@ final currentQuestionProvider = AutoDisposeFutureProvider<Question?>.internal(
 );
 
 typedef CurrentQuestionRef = AutoDisposeFutureProviderRef<Question?>;
-String _$answeredQuestionsHash() => r'fb98f647011a4b0fde349ed7249d4b173629ed2a';
+String _$answeredQuestionsHash() => r'aaff8a6e91da4f307c72a7752b254de1e006c18a';
 
 /// See also [answeredQuestions].
 @ProviderFor(answeredQuestions)
@@ -67,5 +67,20 @@ final dataProvider = AsyncNotifierProvider<Data, List<Question>>.internal(
 );
 
 typedef _$Data = AsyncNotifier<List<Question>>;
+String _$categoriesHash() => r'4bf0adaf56c1a1ef873c43e5d0158d5648c15971';
+
+/// See also [Categories].
+@ProviderFor(Categories)
+final categoriesProvider =
+    AutoDisposeNotifierProvider<Categories, Category>.internal(
+  Categories.new,
+  name: r'categoriesProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$categoriesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Categories = AutoDisposeNotifier<Category>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

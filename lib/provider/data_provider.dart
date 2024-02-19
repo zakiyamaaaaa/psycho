@@ -164,3 +164,15 @@ Future<List<Question>> favoriteQuestions(FavoriteQuestionsRef ref) async {
   final favorites = questions?.where((element) => element.isFavorite).toList();
   return favorites ?? [];
 }
+
+@riverpod
+class Categories extends _$Categories {
+  @override
+  Category build() {
+    return Category.none;
+  }
+
+  void select(Category category) {
+    state = category;
+  }
+}
