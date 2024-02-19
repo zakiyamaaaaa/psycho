@@ -53,8 +53,9 @@ class _PsychoTestResultViewState extends ConsumerState<PsychoTestResultView> {
                     child: Column(
                       children: [
                         Text(
-                        '${selection.text}を選んだあなたは・・・\n${selection.answer1}のタイプです',
+                        '「${selection.text}」を選んだあなたは…\n${selection.answer1}',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                        SizedBox(height: 10,),
                       Text(
                         '${selection.answer2}',
                         style: TextStyle(fontSize: 16),
@@ -68,11 +69,10 @@ class _PsychoTestResultViewState extends ConsumerState<PsychoTestResultView> {
                     shrinkWrap: true,
                     itemCount: question.content.options.length,
                     itemBuilder: (BuildContext context, int index) {
-                    // selectedIndex == indexの場合は表示しない
                     if (selectedIndex == index) {
                       return Container();
                     } else {
-                      return PsychoTestResultOthersContainer(option: question.content.options[index],);
+                      return PsychoTestResultOthersCard(option: question.content.options[index],);
                     }
                   }),
                 ],
@@ -80,14 +80,10 @@ class _PsychoTestResultViewState extends ConsumerState<PsychoTestResultView> {
             ElevatedButton(onPressed: question.isFavorite ? null : (){
               ref.read(dataProvider.notifier).updateFavorite(question);
             }, child: Text(AppLocalizations.of(context)!.addFavorite)),
+            const SizedBox(height: 20,),
             ElevatedButton(onPressed: (){
-              // setState(() {
-              //   ref.read(data2Provider);
-              // });
-              // ref.read(dataProvider.notifier).updateAnswered(question);
               Navigator.popUntil(context, ModalRoute.withName('/'));
             }, child: Text(AppLocalizations.of(context)!.close)),
-            // List.generate(question.content.options.length - 1, (index) => PsychoTestResultOthersContainer())
           ]
         ),
           ),
@@ -97,35 +93,28 @@ class _PsychoTestResultViewState extends ConsumerState<PsychoTestResultView> {
   }
 }
 
-class PsychoTestResultOthersContainer extends StatelessWidget {
-  PsychoTestResultOthersContainer({required this.option, Key? key}) : super(key: key);
+class PsychoTestResultOthersCard extends StatelessWidget {
+  const PsychoTestResultOthersCard({required this.option, Key? key}) : super(key: key);
    final Option option;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children:[
-        Container(
-          padding: const EdgeInsets.all(5),
-          margin: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Text(
-            option.text,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Container(
-          child: Text(
-            option.answer2,
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
-      ]
+    return Card(
+      // color: Colors.white.withOpacity(0.8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      clipBehavior: Clip.antiAlias,
+    child:ExpansionTile(
+      shape: Border.all(style: BorderStyle.none),
+      collapsedBackgroundColor: Colors.white,
+      title: Text(option.text, textAlign: TextAlign.center,), 
+    children: [
+      Container(
+        margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
+        child: Text(option.answer2),
+      ),
+    ],),
     );
   }
 }

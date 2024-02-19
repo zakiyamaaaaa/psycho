@@ -67,77 +67,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                // グラデーションカラー
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 0,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: const LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      Color(0xFFFF9900),
-                      Color(0xFFFFCC7F),
-                    ],
-                  ),
-                ),
-                // height: 80,
-                child: current.when(data:
-                (data) {
-                  // 診断済みの質問を取得、まだ無い場合はnull
-                  if (data == null || current.isRefreshing) {
-                    return Container();
-                  }
-                  return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  // グラデーションカラー
-                  // backgroundColor: Colors.orange
-                ),
-                onPressed: () {
-                  // if (data == null) return;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => PsychoTestResultView(question: data)),
-                  );
-                },
-                child: Container(
-                    width: double.infinity,
-                  padding: const EdgeInsets.all(10),
-                child: Column(
-                  // 左寄せ
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // 白いテキスト
-                    Text(AppLocalizations.of(context)!.yourCurrentAnswer, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),),
-                    Text(data.title, style: TextStyle(color: Colors.black54),),
-                    Text(data.content.options.firstWhere((element) => element.isSelected == true).answer1, style: TextStyle(color: Colors.black54, ),),
-                  ],
-                ),
-                )
-                  );
-                }
-                ,
-                error: (e,s)=> Center(child: Text(AppLocalizations.of(context)!.errorOccurred),),
-                loading: (){
-                  return Center(child: Text(AppLocalizations.of(context)!.loadingText),);
-                })
-              ),
+              YourCurrentAnswerContainer(),
               Container(
                 width: double.infinity,
                 height: 80,
@@ -182,10 +112,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           ),
                           const Spacer(),
                           Text(AppLocalizations.of(context)!.exception,),
-                          // CupertinoSwitch(value: _isToggle, onChanged: (value) => setState(() {
-                          //   _isToggle = value;
-                          //   // ref.refresh(data2Provider.future);
-                          // })),
                           CupertinoSwitch(
                             activeColor: Colors.orange,
                             value: _isToggle,
@@ -236,6 +162,84 @@ class _HomeViewState extends ConsumerState<HomeView> {
       ),
       ),
     );
+  }
+}
+
+
+class YourCurrentAnswerContainer extends ConsumerWidget {
+  const YourCurrentAnswerContainer({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final current = ref.watch(currentQuestionProvider);
+    return Container(
+                // グラデーションカラー
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.9),
+                      spreadRadius: 0,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Color(0xFFFF9900),
+                      Color(0xFFFFCC7F),
+                    ],
+                  ),
+                ),
+                // height: 80,
+                child: current.when(data:
+                (data) {
+                  // 診断済みの質問を取得、まだ無い場合はnull
+                  if (data == null || current.isRefreshing) {
+                    return Container();
+                  }
+                  return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => PsychoTestResultView(question: data)),
+                  );
+                },
+                child: Container(
+                    width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                child: Column(
+                  // 左寄せ
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 白いテキスト
+                    Text(AppLocalizations.of(context)!.yourCurrentAnswer, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),),
+                    Text(data.title, style: TextStyle(color: Colors.black87),),
+                    Text(data.content.options.firstWhere((element) => element.isSelected == true).answer1, style: TextStyle(color: Colors.black87, ),),
+                  ],
+                ),
+                )
+                  );
+                }
+                ,
+                error: (e,s)=> Center(child: Text(AppLocalizations.of(context)!.errorOccurred),),
+                loading: (){
+                  return Center(child: Text(AppLocalizations.of(context)!.loadingText),);
+                })
+              );
   }
 }
 

@@ -13,7 +13,6 @@ class PsychoTestPageView extends ConsumerStatefulWidget {
 }
 
 class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
-  // questionを初期化
   _PsychoTestPageViewState({required this.question});
   int selectedIndex = -1;
   final Question question;
@@ -21,7 +20,7 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Description View')),
+      appBar: AppBar(title: const Text('')),
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -34,16 +33,21 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children:  [
+            SizedBox(
+              height: 150,
+              child: Image.asset(question.imagePath)
+            ),
+            const SizedBox(height: 20),
             Text(
               question.title,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               question.content.explanation,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ListView.builder(
               shrinkWrap: true,
               itemCount: question.content.options.length,
@@ -59,69 +63,67 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
                   );
               },
             ),
-            ElevatedButton(onPressed: selectedIndex < 0 ? null : (){
-              // 選択されたoptionならtrue,それ以外はfalse
-              question.content.options.forEach((element) {
-                if (element == question.content.options[selectedIndex]) {
-                  element.isSelected = true;
-                } else {
-                  element.isSelected = false;
-                }
-              });
-              ref.read(dataProvider.notifier).updateAnswered(question);
+            Container(
+                  height: 44.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(22.0),
+                      gradient: selectedIndex < 0
+                          ? null
+                          : const LinearGradient(colors: [
+                              Color.fromARGB(255, 253, 80, 0),
+                              Colors.orange
+                            ])),
+                  child: ElevatedButton(
+                    onPressed: selectedIndex < 0
+                        ? null
+                        : () {
+                            // 選択されたoptionならtrue,それ以外はfalse
+                            question.content.options.forEach((element) {
+                              if (element ==
+                                  question.content.options[selectedIndex]) {
+                                element.isSelected = true;
+                              } else {
+                                element.isSelected = false;
+                              }
+                            });
+                            ref
+                                .read(dataProvider.notifier)
+                                .updateAnswered(question);
 
-              Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => PsychoTestResultView(question: question)),
-                          );
-            },
-            child: Text(AppLocalizations.of(context)!.showResult, style: const TextStyle(fontWeight: FontWeight.bold),)),
-          ],
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PsychoTestResultView(question: question)),
+                            );
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!.showResult,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color:
+                              selectedIndex < 0 ? Colors.grey : Colors.white),
+                    ),
+                  )),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
 
-// class SelectButton extends StatefulWidget {
-//   SelectButton({required this.text, Key? key}) : super(key: key);
-//   final String text;
-//   final bool isSelected = false;
-
-//   @override
-//   _SelectButtonState createState() => _SelectButtonState();
-// }
-
-// class _SelectButtonState extends State<SelectButton> {
-//   bool isSelected = false;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
-//       child: ElevatedButton(
-//         style: ElevatedButton.styleFrom(
-//           shape: const StadiumBorder(),
-//           backgroundColor: isSelected ? Colors.green : Colors.white,
-//           side: BorderSide(
-//             color: Colors.black,
-//             width: isSelected ? 3 : 0,
-//           ),
-//         ),
-//         onPressed: () {
-//           setState(() {
-//             isSelected = !isSelected;
-//           });
-//         },
-//         child: Text(widget.text, style: TextStyle(color: Colors.black)),
-//       ),
-//     );
-//   }
-// }
-
 class SelectButton extends StatelessWidget {
-  SelectButton({required this.text, required this.isSelected, required this.onPressed, Key? key}) : super(key: key);
+  const SelectButton(
+      {required this.text,
+      required this.isSelected,
+      required this.onPressed,
+      Key? key})
+      : super(key: key);
   final String text;
   final bool isSelected;
   final VoidCallback onPressed;
@@ -134,16 +136,16 @@ class SelectButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(),
           backgroundColor: Colors.white,
-          side:BorderSide(
-            color: Colors.black,
-            width:  isSelected ? 3 : 0,
+          side: BorderSide(
+            color: isSelected ? Colors.orange : Colors.black,
+            width: isSelected ? 3 : 0,
           ),
         ),
         onPressed: () {
           onPressed();
           // isSelected = true;
         },
-        child: Text(text, style: TextStyle(color: Colors.black)),
+        child: Text(text, style: TextStyle(color: Colors.black, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
       ),
     );
   }

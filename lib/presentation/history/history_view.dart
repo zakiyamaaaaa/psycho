@@ -119,6 +119,7 @@ class HistoryExpansionTile extends ConsumerWidget {
                 final question = data[index];
                 debugPrint('answered question: ${data.length}');
                 return ExpansionTile(
+                  shape: const Border(bottom: BorderSide(color: Colors.black45)),
             title: Text(question.title),
             expandedCrossAxisAlignment: CrossAxisAlignment.end,
             childrenPadding: const EdgeInsets.all(20),
