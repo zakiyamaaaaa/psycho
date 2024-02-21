@@ -99,7 +99,7 @@ class SettingView extends ConsumerWidget {
                 actions: [
                   CupertinoActionSheetAction(
                     onPressed: () async {
-                      Share.share('URL: hogehoge');
+                      Share.share(Const.urlAppStore);
                     },
                     child: const Text('テキスト'),
                   ),
@@ -167,8 +167,8 @@ class SettingView extends ConsumerWidget {
                           );
                           await ref.read(dataProvider.notifier).removeAll();
                           await Future.delayed(Duration(seconds: 1), () async {
-                            await ref.read(dataProvider.notifier).save();
-                            debugPrint("save in setting_view");
+                          await ref.read(dataProvider.notifier).save();
+                          debugPrint("save in setting_view");
                           });
                           ref.invalidate(dataProvider);
                           ref.invalidate(currentQuestionProvider);
