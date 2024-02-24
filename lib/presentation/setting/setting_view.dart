@@ -79,7 +79,7 @@ class SettingView extends ConsumerWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) => TermView()));
             },
           ),
-          const Divider(height: 0,),
+          const Divider(key: Key("hoge"), height: 0,),
           ListTile(
             leading: customAvatar(SettingViewType.privacyPolicy),
             title: Text(AppLocalizations.of(context)!.privacyPolicy),
@@ -137,6 +137,7 @@ class SettingView extends ConsumerWidget {
           ),
           const Divider(height: 0,),
           ListTile(
+            key: const Key("resetData"),
             leading: customAvatar(SettingViewType.resetData),
             title: Text(AppLocalizations.of(context)!.resetDataTitle),
             onTap: () {
@@ -144,6 +145,7 @@ class SettingView extends ConsumerWidget {
                 context: context, 
                 builder: (_){
                   return CupertinoAlertDialog(
+                    
                     title: Text(AppLocalizations.of(context)!.resetData, style: const TextStyle(color: Colors.red),),
                     content: Text(AppLocalizations.of(context)!.resetDataWarning),
                     actions: [
@@ -155,6 +157,7 @@ class SettingView extends ConsumerWidget {
                         },
                       ),
                       CupertinoDialogAction(
+                        key: const Key("resetDataButton"),
                         textStyle: const TextStyle(color: Colors.red),
                         child: Text(AppLocalizations.of(context)!.reset),
                         onPressed: () async {

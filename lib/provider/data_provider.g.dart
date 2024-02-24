@@ -82,5 +82,20 @@ final categoriesProvider =
 );
 
 typedef _$Categories = AutoDisposeNotifier<Category>;
+String _$isDoneFlagHash() => r'7f155ef6d6ebf25409b3a6cfadce07509cafe656';
+
+/// See also [IsDoneFlag].
+@ProviderFor(IsDoneFlag)
+final isDoneFlagProvider =
+    AutoDisposeNotifierProvider<IsDoneFlag, bool>.internal(
+  IsDoneFlag.new,
+  name: r'isDoneFlagProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$isDoneFlagHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$IsDoneFlag = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

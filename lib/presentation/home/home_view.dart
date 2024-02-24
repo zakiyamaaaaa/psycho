@@ -16,7 +16,7 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   /// 診断済みを表示するかどうかのフラグ
-  bool _isToggle = false;
+  
   
   Future<List<Question>>? questionsList;
 
@@ -42,6 +42,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     final questions = ref.watch(dataProvider);
     final category = ref.watch(categoriesProvider);
+    final _isToggle = ref.watch(isDoneFlagProvider);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -202,10 +203,7 @@ class YourCurrentAnswerContainer extends ConsumerWidget {
 
 /// テストのカードを表示するエリアのヘッダー
 /// カテゴリーのドロップダウンと、診断済みのみ表示するトグルボタンでフィルター出来る
-//ignore: must_be_immutable
 class TestFilterHeader extends ConsumerWidget {
-  TestFilterHeader({Key? key}) : super(key: key);
-  bool _isToggle = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -270,10 +268,10 @@ class TestFilterHeader extends ConsumerWidget {
           ),
           CupertinoSwitch(
               activeColor: Colors.orange,
-              value: _isToggle,
+              value: ref.read(isDoneFlagProvider),
               onChanged: (value) {
-                _isToggle = value;
-                ref.invalidate(dataProvider);
+                  ref.read(isDoneFlagProvider.notifier).toggle();
+                  ref.invalidate(dataProvider);
               }),
         ],
       ),

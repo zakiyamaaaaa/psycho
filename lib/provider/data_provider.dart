@@ -176,3 +176,15 @@ class Categories extends _$Categories {
     state = category;
   }
 }
+
+@riverpod
+class IsDoneFlag extends _$IsDoneFlag {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void toggle() {
+    state = !state;
+  }
+}

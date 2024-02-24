@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:psycho/domains/model/question.dart';
@@ -19,14 +18,15 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     await Isar.initializeIsarCore(download: true);
     final dir = await Directory.systemTemp.createTemp();
-
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-    .setMockMethodCallHandler(const MethodChannel('plugins.flutter.io/path_provider'), (message){
-      if (message.method == 'getApplicationDocumentsDirectory') {
-        return Future.value(dir.path);
-      }
-      return null;
-    });
+    // final dir = await getApplicationSupportDirectory();
+    // final dir = await getApplicationDocumentsDirectory();
+    // TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+    // .setMockMethodCallHandler(const MethodChannel('plugins.flutter.io/path_provider'), (message){
+    //   if (message.method == 'getApplicationDocumentsDirectory') {
+    //     return Future.value(dir.path);
+    //   }
+    //   return null;
+    // });
     isar = await Isar.open([QuestionSchema], directory: dir.path);
     final container = ProviderContainer(
       overrides: [
