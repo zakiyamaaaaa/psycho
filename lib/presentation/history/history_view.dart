@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:psycho/provider/data_provider.dart';
@@ -51,6 +52,7 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
                     segmentedOption[1]: Text(segmentedOption[1], style: selectedIndex == 1 ? TextStyle(color: Colors.orange.shade900, fontWeight: FontWeight.bold): const TextStyle(color: Colors.black),),
                   },
                   onValueChanged: (value) {
+                    HapticFeedback.selectionClick();
                     if (value != null) {
                       ref.read(segmentedIndexProvider.notifier).update(segmentedOption.indexOf(value));
                       setState(() {

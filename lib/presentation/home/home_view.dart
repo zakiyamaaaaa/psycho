@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/domains/model/question.dart';
 import 'package:psycho/presentation/home/psycho_test_result_view.dart';
@@ -254,6 +255,7 @@ class TestFilterHeader extends ConsumerWidget {
               borderRadius: BorderRadius.circular(10),
               items: dropDownMenuItems,
               onChanged: (value) {
+                HapticFeedback.selectionClick();
                 if (value != null) {
                   // dropdownValue = value;
                   ref.read(categoriesProvider.notifier).select(value);
@@ -270,6 +272,7 @@ class TestFilterHeader extends ConsumerWidget {
               activeColor: Colors.orange,
               value: ref.read(isDoneFlagProvider),
               onChanged: (value) {
+                HapticFeedback.heavyImpact();
                   ref.read(isDoneFlagProvider.notifier).toggle();
                   ref.invalidate(dataProvider);
               }),
@@ -293,7 +296,6 @@ class PsychoTestContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // imageCache.clear();
     imageCache.clearLiveImages();
     return ((isDoneFlag && question.isAnswered) ||
             (category != Category.none && category != question.category))
@@ -310,6 +312,7 @@ class PsychoTestContainer extends ConsumerWidget {
               children: [
                 ElevatedButton(
                   onPressed: () async {
+                    HapticFeedback.selectionClick();
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -396,6 +399,7 @@ class PsychoTestContainer extends ConsumerWidget {
                   right: 10,
                   child: IconButton(
                     onPressed: () {
+                      HapticFeedback.mediumImpact();
                       ref.read(dataProvider.notifier).updateFavorite(question);
                       ref.invalidate(answeredQuestionsProvider);
                     },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:psycho/domains/model/question.dart';
 import 'package:psycho/provider/data_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,10 +79,13 @@ class _PsychoTestResultViewState extends ConsumerState<PsychoTestResultView> {
                 ],
             ),),
             ElevatedButton(onPressed: question.isFavorite ? null : (){
+              HapticFeedback.heavyImpact();
+              // TODO: お気に入りに追加後にボタンの状態を変更。UIに反映
               ref.read(dataProvider.notifier).updateFavorite(question);
             }, child: Text(AppLocalizations.of(context)!.addFavorite)),
             const SizedBox(height: 20,),
             ElevatedButton(onPressed: (){
+              HapticFeedback.heavyImpact();
               Navigator.popUntil(context, ModalRoute.withName('/'));
             }, child: Text(AppLocalizations.of(context)!.close)),
           ]

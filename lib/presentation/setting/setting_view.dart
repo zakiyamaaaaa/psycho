@@ -68,6 +68,7 @@ class SettingView extends ConsumerWidget {
             leading: customAvatar(SettingViewType.contact),
             title: Text(AppLocalizations.of(context)!.contact),
             onTap: () {
+              HapticFeedback.selectionClick();
               Navigator.push(context, MaterialPageRoute(builder: (context) => ContactFormView()));
             },
           ),
@@ -76,6 +77,7 @@ class SettingView extends ConsumerWidget {
             leading:customAvatar(SettingViewType.term),
             title: Text(AppLocalizations.of(context)!.termOfUsage),
             onTap: () {
+              HapticFeedback.selectionClick();
               Navigator.push(context, MaterialPageRoute(builder: (context) => TermView()));
             },
           ),
@@ -84,6 +86,7 @@ class SettingView extends ConsumerWidget {
             leading: customAvatar(SettingViewType.privacyPolicy),
             title: Text(AppLocalizations.of(context)!.privacyPolicy),
             onTap: () {
+              HapticFeedback.selectionClick();
               Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyView()));
             },
           ),
@@ -92,6 +95,7 @@ class SettingView extends ConsumerWidget {
             leading: customAvatar(SettingViewType.shareApp),
             title: Text(AppLocalizations.of(context)!.shareApp),
             onTap: () {
+              HapticFeedback.selectionClick();
               showCupertinoModalPopup(
                 context: context,
                 builder: (BuildContext context) =>
@@ -132,6 +136,7 @@ class SettingView extends ConsumerWidget {
             leading: customAvatar(SettingViewType.evaluateApp),
             title: Text(AppLocalizations.of(context)!.evaluateApp),
             onTap: () {
+              HapticFeedback.selectionClick();
               StoreReviewHelper.launchStoreReview(context);
             },
           ),
@@ -141,6 +146,7 @@ class SettingView extends ConsumerWidget {
             leading: customAvatar(SettingViewType.resetData),
             title: Text(AppLocalizations.of(context)!.resetDataTitle),
             onTap: () {
+              HapticFeedback.selectionClick();
               showDialog(
                 context: context, 
                 builder: (_){

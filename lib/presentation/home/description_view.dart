@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:psycho/domains/model/question.dart';
 
 import 'package:psycho/presentation/home/psycho_test_page_view.dart';
@@ -73,6 +74,7 @@ class _DescriptionViewState extends ConsumerState<DescriptionView> {
               ),
             ),
             ElevatedButton(onPressed: (){
+              HapticFeedback.selectionClick();
               Navigator.push(context,
               MaterialPageRoute(
                 builder: (context) => PsychoTestPageView(question: question),

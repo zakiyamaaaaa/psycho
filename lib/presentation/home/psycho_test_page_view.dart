@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:psycho/domains/model/question.dart';
 import 'package:psycho/presentation/home/psycho_test_result_view.dart';
@@ -56,6 +57,7 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
                   text: question.content.options[index].text,
                   isSelected: selectedIndex == index,
                   onPressed: () {
+                    HapticFeedback.selectionClick();
                     setState(() {
                       selectedIndex = index;
                     });
@@ -77,6 +79,7 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
                     onPressed: selectedIndex < 0
                         ? null
                         : () {
+                          HapticFeedback.selectionClick();
                             // 選択されたoptionならtrue,それ以外はfalse
                             question.content.options.forEach((element) {
                               if (element ==
