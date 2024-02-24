@@ -45,3 +45,4 @@ app.*.map.json
 /lib/mock/mock_data.dart
 key.jks
 libisar.dylib
+test/widget_test.dart
