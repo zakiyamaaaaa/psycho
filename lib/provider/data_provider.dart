@@ -152,14 +152,14 @@ Future<Question?> currentQuestion(CurrentQuestionRef ref) async {
 }
 
 @riverpod
-Future<List<Question>> answeredQuestions(AnsweredQuestionsRef ref) async {
+List<Question> answeredQuestions(AnsweredQuestionsRef ref){
   final questions = ref.watch(dataProvider).value;
   final answeredQuestions = questions?.where((element) => element.isAnswered).toList();
   return answeredQuestions ?? [];
 }
 
 @riverpod
-Future<List<Question>> favoriteQuestions(FavoriteQuestionsRef ref) async {
+List<Question> favoriteQuestions(FavoriteQuestionsRef ref) {
   final questions = ref.watch(dataProvider).value;
   final favorites = questions?.where((element) => element.isFavorite).toList();
   return favorites ?? [];

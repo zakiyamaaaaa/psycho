@@ -7,10 +7,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:psycho/provider/data_provider.dart';
 
 class PsychoTestPageView extends ConsumerStatefulWidget {
-  const PsychoTestPageView({required this.question, Key? key}) : super(key: key);
+  const PsychoTestPageView({required this.question, Key? key})
+      : super(key: key);
   final Question question;
   @override
-  _PsychoTestPageViewState createState() => _PsychoTestPageViewState(question: question);
+  _PsychoTestPageViewState createState() =>
+      _PsychoTestPageViewState(question: question);
 }
 
 class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
@@ -24,48 +26,46 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
       appBar: AppBar(title: const Text('')),
       body: Container(
         decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/backgroundimage_home.png'),
-              fit: BoxFit.cover,
-            ),
+          image: DecorationImage(
+            image: AssetImage('images/backgroundimage_home.png'),
+            fit: BoxFit.cover,
           ),
+        ),
         child: Container(
-        margin: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children:  [
-            SizedBox(
-              height: 150,
-              child: Image.asset(question.imagePath)
-            ),
-            const SizedBox(height: 20),
-            Text(
-              question.title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              question.content.explanation,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: question.content.options.length,
-              itemBuilder: (BuildContext context, int index) {
-                return SelectButton(
-                  text: question.content.options[index].text,
-                  isSelected: selectedIndex == index,
-                  onPressed: () {
-                    HapticFeedback.selectionClick();
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
+          margin: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 150, child: Image.asset(question.imagePath)),
+              const SizedBox(height: 20),
+              Text(
+                question.title,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                question.content.explanation,
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: question.content.options.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SelectButton(
+                    text: question.content.options[index].text,
+                    isSelected: selectedIndex == index,
+                    onPressed: () {
+                      HapticFeedback.selectionClick();
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
                   );
-              },
-            ),
-            Container(
+                },
+              ),
+              Container(
                   height: 44.0,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(22.0),
@@ -79,16 +79,16 @@ class _PsychoTestPageViewState extends ConsumerState<PsychoTestPageView> {
                     onPressed: selectedIndex < 0
                         ? null
                         : () {
-                          HapticFeedback.selectionClick();
+                            HapticFeedback.selectionClick();
                             // 選択されたoptionならtrue,それ以外はfalse
-                            question.content.options.forEach((element) {
+                            for (var element in question.content.options) {
                               if (element ==
                                   question.content.options[selectedIndex]) {
                                 element.isSelected = true;
                               } else {
                                 element.isSelected = false;
                               }
-                            });
+                            }
                             ref
                                 .read(dataProvider.notifier)
                                 .updateAnswered(question);
@@ -148,7 +148,10 @@ class SelectButton extends StatelessWidget {
           onPressed();
           // isSelected = true;
         },
-        child: Text(text, style: TextStyle(color: Colors.black, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
+        child: Text(text,
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
       ),
     );
   }

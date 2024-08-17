@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746119427439",
+    "project_id": "mindplay-2721c",
+    "storage_bucket": "mindplay-2721c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746119427439:android:1f77cb217c019a6c96a49a",
+        "android_client_info": {
+          "package_name": "com.zakiyamaaaaa.mindplay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyrEhlGggOKYOYjbVia0-O86PXJbegY3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
